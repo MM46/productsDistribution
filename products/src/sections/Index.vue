@@ -2,27 +2,22 @@
   <div>
     <hr>
   <b-nav tabs fill>
-    <b-nav-item v-if="seccion1" style ="font-weight: bold;" @click="setOverlay('section1')">Practicocina</b-nav-item>
-    <b-nav-item v-else @click="setOverlay('section1')"> Practicocina </b-nav-item>
-    <b-nav-item v-if="seccion2" style ="font-weight: bold;" @click="setOverlay('section2')">Especialidades</b-nav-item>
-    <b-nav-item v-else @click="setOverlay('section2')">Especialidades</b-nav-item>
-    <b-nav-item v-if="seccion3" style ="font-weight: bold;" @click="setOverlay('section3')">Cortes Finos</b-nav-item>
-    <b-nav-item v-else @click="setOverlay('section3')">Cortes Finos</b-nav-item>
-    <b-nav-item v-if="seccion4" style ="font-weight: bold;" @click="setOverlay('section4')">Línea Magra</b-nav-item>
-    <b-nav-item v-else @click="setOverlay('section4')">Línea Magra</b-nav-item>
-    <b-nav-item v-if="seccion5" style ="font-weight: bold;" @click="setOverlay('section5')">Cortes Frescos</b-nav-item>
-    <b-nav-item v-else @click="setOverlay('section5')">Cortes Frescos</b-nav-item>
+    <b-nav-item v-bind:class="{ navitem: this.seccion1 }" :active='this.seccion1' @click="setOverlay('section1')">Practicocina</b-nav-item>
+    <b-nav-item v-bind:class="{ navitem: this.seccion2 }" :active='this.seccion2' @click="setOverlay('section2')">Especialidades</b-nav-item>
+    <b-nav-item v-bind:class="{ navitem: this.seccion3 }" :active='this.seccion3' @click="setOverlay('section3')">Cortes Finos</b-nav-item>
+    <b-nav-item v-bind:class="{ navitem: this.seccion4 }" :active='this.seccion4' @click="setOverlay('section4')">Línea Magra</b-nav-item>
+    <b-nav-item v-bind:class="{ navitem: this.seccion5 }" :active='this.seccion5' @click="setOverlay('section5')">Cortes Frescos</b-nav-item>
     </b-nav>
-    <Practicocina v-if="this.seccion1"></Practicocina>
-    <Especialidades v-if="this.seccion2"></Especialidades>
-    <CortesFinos v-if="this.seccion3"></CortesFinos>
-    <LineaMagra v-if="this.seccion4"></LineaMagra>
-    <CortesFrescos v-if="this.seccion5"></CortesFrescos>
+    <Practicocina class="overlay" v-if="this.seccion1"></Practicocina>
+    <Especialidades class="overlay" v-if="this.seccion2"></Especialidades>
+    <CortesFinos class="overlay" v-if="this.seccion3"></CortesFinos>
+    <LineaMagra class="overlay" v-if="this.seccion4"></LineaMagra>
+    <CortesFrescos class="overlay" v-if="this.seccion5"></CortesFrescos>
+    <br><br><br><br><br><br><br><br>
   </div>
 </template>
 
 <script>
-import Practicocina from './sections/Practicocina.vue'
 import Especialidades from './sections/Especialidades.vue'
 import CortesFinos from './sections/CortesFinos.vue'
 import LineaMagra from './sections/LineaMagra.vue'
@@ -38,7 +33,6 @@ import CortesFrescos from './sections/CortesFrescos.vue'
       }
     },
     components: {
-      Practicocina,
       Especialidades,
       CortesFinos,
       LineaMagra,
@@ -77,7 +71,32 @@ import CortesFrescos from './sections/CortesFrescos.vue'
           this.seccion4 = false
           this.seccion5 = true
         }
+      },
+      getStyle(section){
+        if(this.seccion1 && section == "section1"){
+          return this.active
+        }else if(section == "section2"){
+          return "font-weight: bold;"
+        }else if(section == "section3"){
+          return "font-weight: bold;"
+        }else if(section == "section4"){
+          return "font-weight: bold;"
+        }else if(section == "section5"){
+          return "font-weight: bold;"
+        }else {
+          ""
+        }
       }
     }
   }
 </script>
+
+<style scoped>
+.navitem {
+  font-weight: bold;
+}
+.overlay {
+  margin-left: 50px;
+  margin-right: 50px;
+}
+</style>

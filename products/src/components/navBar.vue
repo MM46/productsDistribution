@@ -1,21 +1,23 @@
 <template>
-<header>
-  <b-navbar toggleable="lg" type="light" variant="light">
+<header class= "navbar">
+  <b-navbar fixed="top" toggleable="lg" type="dark" variant="dark">
     <b-navbar-brand :to="'/'"><img src="../assets/logo.png"></b-navbar-brand>
     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
     <b-collapse id="nav-collapse" is-nav>
       <b-navbar-nav class="ml-auto">
-        <b-nav-item :to="'/'">Inicio</b-nav-item>
-        <b-nav-item href="#">Sobre Nosotros</b-nav-item>
-        <b-nav-item href="#">Puntos de Venta</b-nav-item>
+          <b-button :to="'/'" variant="dark"> Inicio </b-button>
+          <hr>
+          <b-button variant="dark"> Sobre Nosotros </b-button>
+          <hr>
+          <b-button variant="dark"> Puntos de Venta </b-button>
+          <hr>
       </b-navbar-nav>
       <b-navbar-nav class="ml-auto">
-        <b-button :to="'shoppingCart'" class="rounded-circle" variant="light" >
-          <b-icon-cart variant="dark"></b-icon-cart>
+        <b-button :to="'shoppingCart'" variant="dark" >
+          <b-icon-cart variant="light"></b-icon-cart> Tu Carrito
         </b-button>
-          <b-button variant="light" >
-          Iniciar sesión o Registrarte
-          </b-button>
+        <hr>
+        <b-button variant="dark" > Iniciar sesión o Registrarte </b-button>
       </b-navbar-nav>
     </b-collapse>
   </b-navbar>
@@ -46,9 +48,9 @@ export default {
   color: #ffff;
   background:#0000;
 }
-.navbar {
+/* .navbar {
   height: 130px
-}
+} */
 img {
   height: 50px;
   margin-left: 20px;
@@ -72,6 +74,17 @@ li {
 }
 a {
   color: #42b983;
+}
+.navbar {
+  background: #ffff !important;
+}
+hr {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 0px solid #0000;
+  margin: 1em 0; 
+  padding: 0;
 }
 </style>
 

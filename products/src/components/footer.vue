@@ -23,6 +23,9 @@ export default {
   text-align: center;
   background: #111111;
   color: #ffffff;
-  margin-bottom: 0px;
+  position:fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
 </style>
