@@ -7,6 +7,8 @@
       <b-navbar-nav class="ml-auto">
           <b-button :to="'/'" variant="dark"> Inicio </b-button>
           <hr>
+          <b-button :to="'productos'" variant="dark"> Productos </b-button>
+          <hr>
           <b-button variant="dark"> Sobre Nosotros </b-button>
           <hr>
           <b-button variant="dark"> Puntos de Venta </b-button>
@@ -48,9 +50,7 @@ export default {
   color: #ffff;
   background:#0000;
 }
-/* .navbar {
-  height: 130px
-} */
+
 img {
   height: 50px;
   margin-left: 20px;

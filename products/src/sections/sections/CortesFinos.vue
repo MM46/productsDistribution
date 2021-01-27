@@ -12,7 +12,7 @@
             tag="article"
             class="mb-4"
           >
-            <img :src="getImgUrl(article.img)" style = "width: 100%; height: auto;"/>
+            <img :src="getImgUrl(article.img)" />
             <hr>
             <b-card-title> <h5> {{article.name}} </h5> </b-card-title>
             <h4> ${{article.individualPrice}} MXN </h4>
@@ -81,7 +81,9 @@
 
 <style scoped>
 img {
-  max-width: 250px;
-  height: 200px !important;
+  max-width: auto;
+  height: 150px !important;
+  margin-left: 0.5px;
+  margin-right: 0.5px;
 }
 </style>

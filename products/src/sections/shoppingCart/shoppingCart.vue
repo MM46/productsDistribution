@@ -40,21 +40,28 @@
                       </b-col>
                       <b-col md="3">
                         <b-button v-on:click="addQuantityToProduct(product.product.productId)" class="quantity">
-                          <b-icon-plus-circle aria-hidden="true" variant="secondary" font-scale="1"></b-icon-plus-circle> 
+                          <b-icon-plus-circle  variant="secondary" font-scale="1"></b-icon-plus-circle> 
                         </b-button> 
                           {{product.quantity}}
                         <b-button v-on:click="subtracQuantityToProduct(product.product.productId)" class="quantity">
-                          <b-icon-dash-circle aria-hidden="true" variant="secondary" font-scale="1"></b-icon-dash-circle> 
+                          <b-icon-dash-circle variant="secondary" font-scale="1"></b-icon-dash-circle> 
                         </b-button> 
                       </b-col>
                     </b-row>
                     <br>
                     <b-row>
                      <b-col md="10">
-                        <b-button variant="light" v-on:click="deleteProduct(product.product.productId)" class="quantity">
-                          <b-icon-trash-fill aria-hidden="true" variant="secondary" font-scale="1"></b-icon-trash-fill>
-                          Remover Producto 
-                        </b-button> 
+                      <b-form-group
+                        label-cols-sm="4"
+                        label-cols-lg="3"
+                        content-cols-sm
+                        content-cols-lg="7"
+                      >
+                          <b-button variant="light" v-on:click="deleteProduct(product.product.productId)" class="quantity">
+                            <b-icon-trash-fill variant="secondary" font-scale="1"></b-icon-trash-fill>
+                            Remover Producto 
+                          </b-button> 
+                        </b-form-group>
                       </b-col>
                       <b-col md="2">
                         <h5> ${{product.product.individualPrice * product.quantity}}  </h5> 
@@ -89,9 +96,23 @@
                         <small> Nota: El costo de envío no esta incluido.</small>
                       </b-col>
                     </b-row>
+                    <hr>
+                    <b-row>
+                      <b-col md="12"> 
+                        <b-button block variant="primary">Ir a Pagar</b-button>
+                      </b-col>
+                    </b-row>
                 </b-container>
                 <br>
               </div>
+            </b-col>
+          </b-row>
+          <b-row>
+            <b-col>
+              <br>
+              <b-link :to="'productos'" variant="light" class="quantity">
+                          Continuar Comprando > 
+                </b-link> 
             </b-col>
           </b-row>
         </b-container>
@@ -167,6 +188,7 @@ export default {
 .shoppingCart {
   align-content: start !important;
   background: white !important;
+  box-shadow: 5px 5px 5px -2px #e6e6e6;
 }
 .shoppingCart h3{
    font-weight: medium !important;

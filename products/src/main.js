@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import Home from './Home.vue'
+import productos from './Productos.vue'
 import {BIcon, BootstrapVue, BootstrapVueIcons, IconsPlugin} from 'bootstrap-vue'
 import VueSweetalert2 from 'vue-sweetalert2';
 import VueRouter from 'vue-router'
@@ -31,7 +32,8 @@ Vue.prototype.$shoppingCartList = {}
 
 const routes = [
   { path: '/', component: Home},
-  { path: '/shoppingCart', component: shoppingCart}
+  { path: '/shoppingCart', component: shoppingCart},
+  { path: '/productos', component: productos}
 ]
 
 const router = new VueRouter({
