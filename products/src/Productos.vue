@@ -1,34 +1,28 @@
 <template>
   <div>
     <navigation-bar/>
-    <div>
-        <b-container class="bv-example-row bv-example-row-flex-cols">
-          <b-row>
-            <b-col md="2">
-              <b-nav vertical class="verticalnavbar">
-                <h2> Secciones </h2>
-                <br>
-                <b-nav-item v-bind:class="{ navitem: this.seccion1 }" :active='this.seccion1' @click="setOverlay('section1')">Practicocina</b-nav-item>
-                <b-nav-item v-bind:class="{ navitem: this.seccion2 }" :active='this.seccion2' @click="setOverlay('section2')">Especialidades</b-nav-item>
-                <b-nav-item v-bind:class="{ navitem: this.seccion3 }" :active='this.seccion3' @click="setOverlay('section3')">Cortes Finos</b-nav-item>
-                <b-nav-item v-bind:class="{ navitem: this.seccion4 }" :active='this.seccion4' @click="setOverlay('section4')">Línea Magra</b-nav-item>
-                <b-nav-item v-bind:class="{ navitem: this.seccion5 }" :active='this.seccion5' @click="setOverlay('section5')">Cortes Frescos</b-nav-item>
-              </b-nav>
-            </b-col>
-            <b-col md="10">
-              <div>
-                <br><br><br>
-                <Practicocina class="overlay" v-if="this.seccion1"></Practicocina>
-                <Especialidades class="overlay" v-if="this.seccion2"></Especialidades>
-                <CortesFinos class="overlay" v-if="this.seccion3"></CortesFinos>
-                <LineaMagra class="overlay" v-if="this.seccion4"></LineaMagra>
-                <CortesFrescos class="overlay" v-if="this.seccion5"></CortesFrescos>
-                <br><br><br><br><br><br>
-              </div>
-            </b-col>
-          </b-row>
-        </b-container>
-    </div>
+    <header class= "productsnavbar"> 
+      <b-navbar fixed toggleable="lg" type="dark" variant="dark">
+        <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+        <b-collapse id="nav-collapse" is-nav>
+          <b-navbar-nav class="ml-auto">
+    <b-nav-item v-bind:class="{ navitem: this.seccion1 }" :active='this.seccion1' @click="setOverlay('section1')">Practicocina</b-nav-item>
+    <b-nav-item v-bind:class="{ navitem: this.seccion2 }" :active='this.seccion2' @click="setOverlay('section2')">Especialidades</b-nav-item>
+    <b-nav-item v-bind:class="{ navitem: this.seccion3 }" :active='this.seccion3' @click="setOverlay('section3')">Cortes Finos</b-nav-item>
+    <b-nav-item v-bind:class="{ navitem: this.seccion4 }" :active='this.seccion4' @click="setOverlay('section4')">Línea Magra</b-nav-item>
+    <b-nav-item v-bind:class="{ navitem: this.seccion5 }" :active='this.seccion5' @click="setOverlay('section5')">Cortes Frescos</b-nav-item>
+          </b-navbar-nav>
+        </b-collapse>
+      </b-navbar>
+    </header>
+    <br><br><br><br><br>
+    <!-- <body> -->
+      <Practicocina class="overlay" v-if="this.seccion1"></Practicocina>
+      <Especialidades class="overlay" v-if="this.seccion2"></Especialidades>
+      <CortesFinos class="overlay" v-if="this.seccion3"></CortesFinos>
+      <LineaMagra class="overlay" v-if="this.seccion4"></LineaMagra>
+      <CortesFrescos class="overlay" v-if="this.seccion5"></CortesFrescos>
+    <!-- </body> -->
   </div>
 </template>
 
@@ -112,7 +106,12 @@ import CortesFrescos from './sections/sections/CortesFrescos.vue'
     color: #970000 !important;
     font-family: 'Nunito';
   }
-  .verticalnavbar {
-    margin-top: 100px;
+  .productsnavbar {
+    margin-top: 50px;
+    margin-left: 0px;
+    margin-right: -14px;
+    left: 0px;
+    right: -14px;
+    position: relative;
   }
 </style>
