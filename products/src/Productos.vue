@@ -100,18 +100,3 @@ import CortesFrescos from './sections/sections/CortesFrescos.vue'
   }
 </script>
 
-<style>
-  h2 {
-    font-weight: bold !important;
-    color: #970000 !important;
-    font-family: 'Nunito';
-  }
-  .productsnavbar {
-    margin-top: 50px;
-    margin-left: 0px;
-    margin-right: -14px;
-    left: 0px;
-    right: -14px;
-    position: relative;
-  }
-</style>

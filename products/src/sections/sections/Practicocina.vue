@@ -12,7 +12,7 @@
             tag="article"
             class="mb-4"
           >
-            <img :src="getImgUrl(article.img)"/>
+            <img class = "productImage" :src="getImgUrl(article.img)"/>
             <hr>
             <b-card-title> <h5> {{article.name}} </h5> </b-card-title>
             <h4> ${{article.individualPrice}} MXN </h4>
@@ -21,6 +21,7 @@
         </b-card-group>
       </b-row>
     </b-overlay>
+    <br><br><br><br><br><br><br><br>
   </div>
 </template>
 
@@ -80,12 +81,3 @@
     },
   }
 </script>
-
-<style scoped>
-img {
-  max-width: auto;
-  height: 150px !important;
-  margin-left: 0.5px;
-  margin-right: 0.5px;
-}
-</style>

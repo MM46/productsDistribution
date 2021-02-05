@@ -61,10 +61,3 @@
     }
   }
 </script>
-
-<style scoped>
-.carrousel {
-  background-color: #000;
-
-}
-</style>

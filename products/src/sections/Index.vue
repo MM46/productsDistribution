@@ -13,7 +13,6 @@
     <CortesFinos class="overlay" v-if="this.seccion3"></CortesFinos>
     <LineaMagra class="overlay" v-if="this.seccion4"></LineaMagra>
     <CortesFrescos class="overlay" v-if="this.seccion5"></CortesFrescos>
-    <br><br><br><br><br><br><br><br>
   </div>
 </template>
 
@@ -90,13 +89,3 @@ import CortesFrescos from './sections/CortesFrescos.vue'
     }
   }
 </script>
-
-<style scoped>
-.navitem {
-  font-weight: bold;
-}
-.overlay {
-  margin-left: 50px;
-  margin-right: 50px;
-}
-</style>

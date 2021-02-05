@@ -180,35 +180,3 @@ export default {
   }
 }
 </script>
-
-<style>
-.page {
-   background: #F5F5F5 !important;
-}
-.shoppingCart {
-  align-content: start !important;
-  background: white !important;
-  box-shadow: 5px 5px 5px -2px #e6e6e6;
-}
-.shoppingCart h3{
-   font-weight: medium !important;
-}
-.jumbotron {
-  color: #000;
-  font-weight: bold !important;
-  background: #EEEEEE !important;
-}
-.jumbotron h2{
-  font-size: 50px;
-}
-hr {
-  color: #fff;
-}
-.quantity {
-  background-color: transparent !important;
-  border: none !important;
-}
-.customButton {
-   font-weight: bold !important;
-}
-</style>

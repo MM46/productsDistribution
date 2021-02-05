@@ -1,7 +1,7 @@
 <template>
 <header class= "navbar">
   <b-navbar fixed="top" toggleable="lg" type="dark" variant="dark">
-    <b-navbar-brand :to="'/'"><img src="../assets/logo.png"></b-navbar-brand>
+    <b-navbar-brand :to="'/'"><img class="logo" src="../assets/logo.png"></b-navbar-brand>
     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
     <b-collapse id="nav-collapse" is-nav>
       <b-navbar-nav class="ml-auto">
@@ -44,46 +44,6 @@ export default {
   },
 }
 </script>
-
-<style>
-.nav-item {
-  color: #ffff;
-  background:#0000;
-}
-
-img {
-  height: 50px;
-  margin-left: 20px;
-}
-header {
-  margin-top: 0px;
-  margin-left: 0px;
-  margin-right: 0px;
-  margin-bottom: 0px;
-}
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
-hr {
-  display: block;
-  height: 1px;
-  border: 0;
-  border-top: 0px solid #0000;
-  margin: 1em 0; 
-  padding: 0;
-}
-</style>
 
 
 
