@@ -75,9 +75,6 @@ li {
 a {
   color: #42b983;
 }
-.navbar {
-  background: #ffff !important;
-}
 hr {
   display: block;
   height: 1px;
