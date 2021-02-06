@@ -1,6 +1,9 @@
 <template>
   <div id="app">
-    <router-view></router-view>
+    <navigation-bar/>
+    <main class="py-4">
+      <router-view></router-view>
+    </main>
     <custom-footer/>
   </div>
 </template>
@@ -115,7 +118,6 @@ h2 {
   font-family: 'Nunito';
 }
 .productsnavbar {
-  margin-top: 50px;
   margin-left: 0px;
   margin-right: -14px;
   left: 0px;
@@ -161,6 +163,21 @@ hr {
 .navbutton {
    font-size: 14px !important;
    text-align: center;
+   margin-top: 10px;
+}
+
+.userInfo{
+  position: absolute;
+  width: 204px;
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  transform-origin: top;
+  transition: transform .4s ease-in-out;
+  overflow: hidden;
+}
+.slide-enter, .slide-leave-to{
+  transform: scaleY(0);
 }
 
 </style>

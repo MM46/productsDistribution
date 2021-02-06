@@ -16,10 +16,31 @@
       </b-navbar-nav>
       <b-navbar-nav class="ml-auto">
         <b-button class = "navbutton" :to="'shoppingCart'" variant="dark" >
-          <b-icon-cart variant="light"></b-icon-cart> Tu Carrito
+          <b-icon-cart style = "margin-right:10px" variant="light"></b-icon-cart>
+           Tu Carrito
         </b-button>
         <hr>
-        <b-button class = "navbutton" variant="dark" > Iniciar sesión o Registrarte </b-button>
+          <template v-if="user.loggedIn">
+            <b-button class = "navbutton" :to="'shoppingCart'" variant="dark" @click="dropIt">
+              <b-icon-person-fill style = "margin-right:10px" variant="light"></b-icon-person-fill >
+               <b>{{user.data.displayName}}</b>
+            </b-button>
+            <transition name="slide">
+              <ul class="userInfo" v-if="isDropped">
+                <b-button variant="dark" @click.prevent="signOut">
+                    Cerrar Sesión 
+                  </b-button>
+              </ul>
+            </transition>
+          </template>
+          <template v-else>
+            <router-link to="login">
+              <b-button class = "navbutton" variant="dark" > Iniciar sesión </b-button>
+            </router-link>
+            <router-link to="register">
+              <b-button class = "navbutton" variant="dark" > Registrarte </b-button>
+            </router-link>
+          </template>
       </b-navbar-nav>
     </b-collapse>
   </b-navbar>
@@ -27,20 +48,39 @@
 </template>
 
 <script>
-import { BIconCart} from 'bootstrap-vue'
+import { BIconCart, BIconPersonFill} from 'bootstrap-vue'
+import { mapGetters } from "vuex";
+import firebase from "firebase";
 export default {
     data() {
         return {
-            meal: "mymeal"
+          isDropped: false
         }
     },
+  computed: {
+    ...mapGetters({
+// map `this.user` to `this.$store.getters.user`
+      user: "user"
+    })
+  },
   methods: {
-    getMeal() {
-      console.log(this.meal)
+    signOut() {
+      firebase
+        .auth()
+        .signOut()
+        .then(() => {
+          this.$router.replace({
+            name: "home"
+          });
+        });
+    },
+    dropIt() {
+      this.isDropped = !this.isDropped
     }
   },
   components: {
-    BIconCart
+    BIconCart,
+    BIconPersonFill
   },
 }
 </script>

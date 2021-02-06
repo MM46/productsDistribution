@@ -1,6 +1,5 @@
 <template>
   <div>
-    <navigation-bar/>
     <carrousel/>
     <sections/>
     <footer/>
