@@ -6,23 +6,20 @@
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
         <b-collapse id="nav-collapse" is-nav>
           <b-navbar-nav class="ml-auto">
-    <b-nav-item v-bind:class="{ navitem: this.seccion1 }" :active='this.seccion1' @click="setOverlay('section1')">Practicocina</b-nav-item>
-    <b-nav-item v-bind:class="{ navitem: this.seccion2 }" :active='this.seccion2' @click="setOverlay('section2')">Especialidades</b-nav-item>
-    <b-nav-item v-bind:class="{ navitem: this.seccion3 }" :active='this.seccion3' @click="setOverlay('section3')">Cortes Finos</b-nav-item>
-    <b-nav-item v-bind:class="{ navitem: this.seccion4 }" :active='this.seccion4' @click="setOverlay('section4')">Línea Magra</b-nav-item>
-    <b-nav-item v-bind:class="{ navitem: this.seccion5 }" :active='this.seccion5' @click="setOverlay('section5')">Cortes Frescos</b-nav-item>
+            <b-nav-item v-bind:class="{ navitem: this.seccion1 }" :active='this.seccion1' @click="setOverlay('section1')">Practicocina</b-nav-item>
+            <b-nav-item v-bind:class="{ navitem: this.seccion2 }" :active='this.seccion2' @click="setOverlay('section2')">Especialidades</b-nav-item>
+            <b-nav-item v-bind:class="{ navitem: this.seccion3 }" :active='this.seccion3' @click="setOverlay('section3')">Cortes Finos</b-nav-item>
+            <b-nav-item v-bind:class="{ navitem: this.seccion4 }" :active='this.seccion4' @click="setOverlay('section4')">Línea Magra</b-nav-item>
+            <b-nav-item v-bind:class="{ navitem: this.seccion5 }" :active='this.seccion5' @click="setOverlay('section5')">Cortes Frescos</b-nav-item>
           </b-navbar-nav>
         </b-collapse>
       </b-navbar>
     </header>
-    <br><br><br><br><br>
-    <!-- <body> -->
       <Practicocina class="overlay" v-if="this.seccion1"></Practicocina>
       <Especialidades class="overlay" v-if="this.seccion2"></Especialidades>
       <CortesFinos class="overlay" v-if="this.seccion3"></CortesFinos>
       <LineaMagra class="overlay" v-if="this.seccion4"></LineaMagra>
       <CortesFrescos class="overlay" v-if="this.seccion5"></CortesFrescos>
-    <!-- </body> -->
   </div>
 </template>
 

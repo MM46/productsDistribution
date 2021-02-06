@@ -58,7 +58,7 @@ h5 {
   margin-left: 20px;
 }
 .productImage {
-  height: 200px;
+  height: 10rem;
 }
 header {
   margin-top: 0px;
@@ -92,13 +92,18 @@ hr {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   background: #111111;
   color: #ffffff;
   position:fixed;
   bottom: 0;
   left: 0;
   right: 0;
+}
+
+.footerText {
+  margin-top: 15px;
+  text-align: center;
+  margin-bottom: 15px;
 }
 .carrousel {
   background-color: #000;
@@ -152,6 +157,10 @@ hr {
 }
 .customButton {
    font-weight: bold !important;
+}
+.navbutton {
+   font-size: 14px !important;
+   text-align: center;
 }
 
 </style>

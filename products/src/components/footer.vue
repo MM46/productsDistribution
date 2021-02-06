@@ -1,10 +1,8 @@
 <template>
   <div id="footer">
-    <template>
-      <br>
-      <p> © MM Development </p>
-      <br>
-    </template>
+    <div class= "footerText">
+      <small> © MM Development - 2021 </small>
+    </div>
   </div>
 </template>
 <script>
