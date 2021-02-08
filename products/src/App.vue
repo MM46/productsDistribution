@@ -12,10 +12,11 @@
 export default {
 data () {
     return {
-
     }
   },
   components: {
+  },
+  methods: {
   }
 }
 </script>
@@ -178,6 +179,9 @@ hr {
 }
 .slide-enter, .slide-leave-to{
   transform: scaleY(0);
+}
+.uploading-image{
+  display:flex;
 }
 
 </style>
