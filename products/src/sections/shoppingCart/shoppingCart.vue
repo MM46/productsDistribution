@@ -163,10 +163,6 @@ export default {
       this.getTotalToPay()
       }
     },
-    getImgUrl(img) {
-      var images = require.context('./../../assets/Imagenes/products/', false, /\.jpg$/)
-      return images('./' + img + ".jpg")
-    },
     getShoppingCartQuantity(){
       return Object.keys(this.shoppingCartList).length
     },

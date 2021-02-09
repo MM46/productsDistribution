@@ -66,7 +66,7 @@ export default {
     },
     addSection() {
       const db = firebase.firestore();
-        db.collection("sections").doc(this.name).set({name: this.name})
+        db.collection("sections").doc(this.name).set({name: this.name, products: []})
         .then(() => {
             this.sectionAddedSuccesfully(this.name)
           })

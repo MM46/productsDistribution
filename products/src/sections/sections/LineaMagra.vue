@@ -12,7 +12,8 @@
             tag="article"
             class="mb-4"
           >
-            <img class = "productImage" :src="getImgUrl(article.img)" />
+            <img v-if="article.img != ''" class = "productImage" :src="article.img" />
+            <img v-else class = "productImage" :src="'https://firebasestorage.googleapis.com/v0/b/productsdistribution.appspot.com/o/imagenotavailable.jpg?alt=media&token=f58052f7-5666-4801-8721-779b0d4db7b4'"/>
             <hr>
             <b-card-title> <h5> {{article.name}} </h5> </b-card-title>
             <h4> ${{article.individualPrice}} MXN </h4>
@@ -26,12 +27,11 @@
 </template>
 
 <script>
-
+import firebase from "../../firebaseConfig"
   export default {
     data() {
       return {
         articles: [],
-        counter: 0,
       }
     },
     components: {
@@ -43,18 +43,15 @@
     },
     methods: {
       getArticles(){
-        this.articles.push({productId: 26, name: "Pulpa de Lomo", weight: 600, individualPrice: 0.00, boxPrice: 0, piecesPerBox: 60, img: "pulpadelomo"})
-        this.articles.push({productId: 27, name: "Carne Molida", weight: 600, individualPrice: 0.00, boxPrice: 0, piecesPerBox: 60, img: "carnemolida"})
-        this.articles.push({productId: 28, name: "Fajitas de Filete", weight: 600, individualPrice: 0.00, boxPrice: 0, piecesPerBox: 60, img: "fajitasdefilete"})
-        this.articles.push({productId: 29, name: "Filete Mariposa", weight: 600, individualPrice: 0.00, boxPrice: 0, piecesPerBox: 60, img: "filetemariposa"})
-        this.articles.push({productId: 30, name: "Bistec de Pulpa", weight: 600, individualPrice: 0.00, boxPrice: 0, piecesPerBox: 60, img: "bistecdepulpa"})
-        this.articles.push({productId: 31, name: "Pulpa de Pierna", weight: 600, individualPrice: 0.00, boxPrice: 0, piecesPerBox: 60, img: "pulpadepierna"})
-        this.articles.push({productId: 32, name: "Puntas de Filete", weight: 600, individualPrice: 0.00, boxPrice: 0, piecesPerBox: 60, img: "puntasdefilete"})
-
-      },
-      getImgUrl(img) {
-        var images = require.context('./../../assets/Imagenes/products/', false, /\.jpg$/)
-        return images('./' + img + ".jpg")
+      const db = firebase.firestore();
+        db.collection("sections").doc("Línea Magra")
+          .get()
+          .then((result) => {
+            this.articles = result.data().products
+          })
+          .catch((error) => {
+            console.log("No se pudieron cargar los productos. error:", error);
+          });
       },
       articleAddedAlert(product) {
         const Toast = this.$swal.mixin({

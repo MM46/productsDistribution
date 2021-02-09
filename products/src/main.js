@@ -3,8 +3,9 @@ import App from './App.vue'
 import Home from './Home.vue'
 import Register from './Register.vue'
 import Login from './Login.vue'
-import agregarProducto from './components/addProduct.vue'
-import agregarSeccion from './components/addSection.vue'
+import agregarProducto from './admin/addProduct.vue'
+import agregarSeccion from './admin/addSection.vue'
+import dashboard from './admin/dashboard.vue'
 import productos from './Productos.vue'
 import {BIcon, BootstrapVue, BootstrapVueIcons, IconsPlugin} from 'bootstrap-vue'
 import VueSweetalert2 from 'vue-sweetalert2';
@@ -19,7 +20,6 @@ import footer from './components/footer'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import 'bootstrap-vue/dist/bootstrap-vue-icons.min.css'
-// import { firebase } from './firebaseConfig';
 import store from "./store";
 export const serverBus = new Vue();
 
@@ -34,19 +34,6 @@ Vue.use(VueRouter)
 Vue.use(VueSweetalert2)
 Vue.use(BootstrapVue, BootstrapVueIcons, IconsPlugin)
 Vue.config.productionTip = false
-// const configOptions = {
-//   apiKey: "AIzaSyBimWPAhwg2E9pTOLO-uT4n-I87ZrU1aTk",
-//   authDomain: "productsdistribution.firebaseapp.com",
-//   projectId: "productsdistribution",
-//   storageBucket: "productsdistribution.appspot.com",
-//   messagingSenderId: "394733699795",
-//   appId: "1:394733699795:web:1aac188447ce1a90880a26",
-//   measurementId: "G-R9M7H1DC7V"
-// };
-// firebase.initializeApp(configOptions);
-// firebase.auth().onAuthStateChanged(user => {
-//   store.dispatch("fetchUser", user);
-// });
 Vue.prototype.$shoppingCartList = {}
 
 const router = new VueRouter({
@@ -87,6 +74,11 @@ const router = new VueRouter({
         path: '/agregarSeccion',
         name: 'agregarSeccion',
         component: agregarSeccion
+    },
+    {
+        path: '/dashboard',
+        name: 'dashboard',
+        component: dashboard
     },
 ]
 });

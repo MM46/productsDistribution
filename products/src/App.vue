@@ -183,5 +183,8 @@ hr {
 .uploading-image{
   display:flex;
 }
+.modalDetailInfo {
+  font-size:12px;
+}
 
 </style>

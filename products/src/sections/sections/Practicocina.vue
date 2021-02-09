@@ -12,7 +12,8 @@
             tag="article"
             class="mb-4"
           >
-            <img class = "productImage" :src="getImgUrl(article.img)"/>
+            <img v-if="article.img != ''" class = "productImage" :src="article.img" />
+            <img v-else class = "productImage" :src="'https://firebasestorage.googleapis.com/v0/b/productsdistribution.appspot.com/o/imagenotavailable.jpg?alt=media&token=f58052f7-5666-4801-8721-779b0d4db7b4'"/>
             <hr>
             <b-card-title> <h5> {{article.name}} </h5> </b-card-title>
             <h4> ${{article.individualPrice}} MXN </h4>
@@ -26,11 +27,11 @@
 </template>
 
 <script>
+import firebase from "../../firebaseConfig"
   export default {
     data() {
       return {
         articles: [],
-        counter: 0,
       }
     },
     components: {
@@ -38,23 +39,18 @@
     },
     mounted() {
       this.getArticles()
-      
     },
     methods: {
       getArticles(){
-        this.articles.push({productId: 1, name: "Salsa Roja Pierna de Cerdo", weight: 283, individualPrice: 50.00, boxPrice: 993, piecesPerBox: 20, img: "salsarojapiernadecerdo"})
-        this.articles.push({productId: 2, name: "Salsa Verde Pierna de Cerdo", weight: 283, individualPrice: 50.00, boxPrice: 993, piecesPerBox: 20, img: "salsaverdepiernadecerdo"})
-        this.articles.push({productId: 3, name: "Cochinita Pierna de Cerdo", weight: 250, individualPrice: 33.00, boxPrice: 1285, piecesPerBox: 20, img: "cochinitapiernadecerdo"})
-        this.articles.push({productId: 4, name: "Carnitas Pierna de Cerdo", weight: 250, individualPrice: 33.00, boxPrice: 1285, piecesPerBox: 20, img: "carnitaspiernadecerdo"})
-        this.articles.push({productId: 5, name: "Chilorio Pierna de Cerdo", weight: 250, individualPrice: 33.00, boxPrice: 1285, piecesPerBox: 20, img: "chiloriopiernadecerdo"})
-        this.articles.push({productId: 6, name: "Carne en Salsa de Adobo", weight: 600, individualPrice: 93.00, boxPrice: 930, piecesPerBox: 10, img: "carneensalsadeadobo"})
-        this.articles.push({productId: 7, name: "Carne en Salsa Morita", weight: 600, individualPrice: 93.00, boxPrice: 930, piecesPerBox: 10, img: "carneensalsamorita"})
-        this.articles.push({productId: 8, name: "Deshebrada de Cerdo", weight: 250, individualPrice: 33.00, boxPrice: 1285, piecesPerBox: 9, img: "deshebradadecerdo"})
-
-      },
-      getImgUrl(img) {
-        var images = require.context('./../../assets/Imagenes/products/', false, /\.jpg$/)
-        return images('./' + img + ".jpg")
+      const db = firebase.firestore();
+        db.collection("sections").doc("Practicocina")
+          .get()
+          .then((result) => {
+            this.articles = result.data().products
+          })
+          .catch((error) => {
+            console.log("No se pudieron cargar los productos. error:", error);
+          });
       },
       articleAddedAlert(product) {
         const Toast = this.$swal.mixin({

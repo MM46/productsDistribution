@@ -1,6 +1,6 @@
 <template>
   <div class="carrousel">
-    <b-carousel
+    <!-- <b-carousel
       id="carousel-1"
       v-model="slide"
       :interval="4000"
@@ -21,7 +21,7 @@
           >
         </template>
       </b-carousel-slide>
-    </b-carousel>
+    </b-carousel> -->
   </div>
 </template>
 
@@ -44,20 +44,20 @@
       onSlideEnd() {
         this.sliding = false
       },
-      importAll() {
-        const imgs = require.context(
-          '@/assets/Imagenes/carrousel/',
-          true,
-          /\.png$/
-        )
+      // importAll() {
+      //   const imgs = require.context(
+      //     '@/assets/Imagenes/carrousel/',
+      //     true,
+      //     /\.png$/
+      //   )
 
-        for(let i = 1; i <= imgs.keys().length; i++){
-           this.carrouselImages.push(i + ".png")
-        }
-      },
-      getImgUrl(img) {
-          return require('../assets/Imagenes/carrousel/' + img)
-      }
+      //   for(let i = 1; i <= imgs.keys().length; i++){
+      //      this.carrouselImages.push(i + ".png")
+      //   }
+      // },
+      // getImgUrl(img) {
+      //     return require('../assets/Imagenes/carrousel/' + img)
+      // }
     }
   }
 </script>

@@ -89,7 +89,7 @@
                     </router-link>
                   </b-col>
                  <b-col md="4">
-                  <label for="stockPieces">Cajas en Almacen: </label>
+                  <label for="stockPieces">Cajas en Almacén: </label>
                  </b-col>
                   <b-col md="8">
                   <input
@@ -112,6 +112,8 @@
                     ref="input1" 
                     accept="image/*" 
                     @change="previewImage">
+                    <br>
+                    <small> Si no se elige la imagen se pondra una por default. </small>
                 </b-col>
               <br><br><br><br>
                 <b-col md="12">
@@ -158,6 +160,16 @@ export default {
     this.getSections()
   },
  methods: {
+    clearData() {
+      this.name = null
+      this.weight = null
+      this.individualPrice = null
+      this.boxPrice = null
+      this.piecesPerBox = null
+      this.img = null
+      this.selectedSection = null
+      this.stockPieces = null
+    },
     productAddedSuccesfully(product){
         this.$swal.fire({
             position: 'center',
@@ -166,6 +178,7 @@ export default {
             showConfirmButton: false,
             timer: 3000
         })
+        this.clearData()
     },
       create () {
         const post = {
@@ -179,47 +192,102 @@ export default {
           console.log(err)
         })
       },
-    click1() {
-        this.$refs.input1.click()   
-      },
     previewImage(event) {
-      this.uploadValue=0;
-      this.img=null;
-      this.imageData = event.target.files[0];
+      this.uploadValue = 0
+      this.img = null
+      this.imageData = event.target.files[0]
       this.onUpload()
     },
     onUpload(){
-      this.img=null;
-      const storageRef=firebase.storage().ref(`${this.imageData.name}`).put(this.imageData);
-      storageRef.on(`state_changed`,snapshot=>{
+      this.img = null
+      const storageRef = firebase.storage().ref(`${this.imageData.name}`).put(this.imageData);
+      storageRef.on(`state_changed`, snapshot => {
       this.uploadValue = (snapshot.bytesTransferred/snapshot.totalBytes)*100;
-        }, error=>{console.log(error.message)},
-      ()=>{this.uploadValue=100;
-          storageRef.snapshot.ref.getDownloadURL().then((url)=>{
+        }, error => {console.log(error.message)},
+      () => { this.uploadValue = 100;
+          storageRef.snapshot.ref.getDownloadURL().then((url) => {
               this.img=url;
             });
           }      
         );
     },
-    addProduct() {
-        // this.articles.push({productId: 1, name: "Salsa Roja Pierna de Cerdo", weight: 283, individualPrice: 50.00, boxPrice: 993, piecesPerBox: 20, img: "salsarojapiernadecerdo"})
-        // this.articles.push({productId: 2, name: "Salsa Verde Pierna de Cerdo", weight: 283, individualPrice: 50.00, boxPrice: 993, piecesPerBox: 20, img: "salsaverdepiernadecerdo"})
-        // this.articles.push({productId: 3, name: "Cochinita Pierna de Cerdo", weight: 250, individualPrice: 33.00, boxPrice: 1285, piecesPerBox: 20, img: "cochinitapiernadecerdo"})
-        // this.articles.push({productId: 4, name: "Carnitas Pierna de Cerdo", weight: 250, individualPrice: 33.00, boxPrice: 1285, piecesPerBox: 20, img: "carnitaspiernadecerdo"})
-        // this.articles.push({productId: 5, name: "Chilorio Pierna de Cerdo", weight: 250, individualPrice: 33.00, boxPrice: 1285, piecesPerBox: 20, img: "chiloriopiernadecerdo"})
-        // this.articles.push({productId: 6, name: "Carne en Salsa de Adobo", weight: 600, individualPrice: 93.00, boxPrice: 930, piecesPerBox: 10, img: "carneensalsadeadobo"})
-        // this.articles.push({productId: 7, name: "Carne en Salsa Morita", weight: 600, individualPrice: 93.00, boxPrice: 930, piecesPerBox: 10, img: "carneensalsamorita"})
-        // this.articles.push({productId: 8, name: "Deshebrada de Cerdo", weight: 250, individualPrice: 33.00, boxPrice: 1285, piecesPerBox: 9, img: "deshebradadecerdo"})
-      this.create()
+    addProductToSection(data) {
       const db = firebase.firestore();
-        db.collection("products")
-          .add({name: this.name, weight: this.weight, individualPrice: this.individualPrice, boxPrice: this.boxPrice, piecesPerBox: this.piecesPerBox, img: this.img, section: this.selectedSection})
-          .then(() => {
-            this.productAddedSuccesfully(this.name)
-          })
-          .catch((error) => {
-            console.error("No se pudo agregar el producto. error:", error);
+      const sectionRef = db.collection("sections").doc(data.section);
+
+      return db.runTransaction(function(transaction) {
+          return transaction.get(sectionRef).then(function(section) {
+              if (!section.exists) {
+                  throw "La sección no existe!";
+              }
+              const products = section.data().products
+              products.push(data)
+              transaction.update(sectionRef, { products: products });
           });
+      }).then(function() {
+          console.log("Transaction successfully committed!");
+      }).catch(function(error) {
+          console.log("Transaction failed: ", error);
+      });
+     },
+    checkAllFields() {
+      let isClear = true
+      let html = "<div> <label>Faltan los siguientes datos:</label><br>"
+      if(this.name == null){
+        html += "<small>- Nombre del Producto</small><br>"
+        isClear = false
+      }
+      if(this.weight == null){
+        html += "<small>- Peso en gr</small><br>"
+        isClear = false
+      }
+      if(this.individualPrice == null){
+         html += "<small>- Precio Individual</small><br>"
+         isClear = false
+      }
+      if(this.boxPrice == null){
+        html += "<small>- Precio por Caja</small><br>"
+        isClear = false
+      }
+      if(this.piecesPerBox == null){
+        html += "<small>- Piezas por Caja</small><br>"
+        isClear = false
+      }
+      if(this.selectedSection == null){
+        html += "<small>- Sección</small><br>"
+        isClear = false
+      }
+      if(this.stockPieces == null){
+        html += "<small>- Cajas en Almacén</small><br>"
+        isClear = false
+      }
+      html += "</div>"
+      if(!isClear){
+        this.$swal.fire({
+              position: 'center',
+              icon: 'warning',
+              title: 'Error',
+              html: html,
+              showConfirmButton: true,
+          })
+      }
+      return isClear
+    },
+    addProduct() {
+      if(this.checkAllFields()){
+          this.create()
+          const data = {name: this.name, weight: this.weight, individualPrice: this.individualPrice, boxPrice: this.boxPrice, piecesPerBox: this.piecesPerBox, img: this.img, section: this.selectedSection, stockPieces: this.stockPieces}
+          const db = firebase.firestore()
+            db.collection("products")
+              .add(data)
+              .then(() => {
+                this.addProductToSection(data)
+                this.productAddedSuccesfully(this.name)
+              })
+              .catch((error) => {
+                console.error("No se pudo agregar el producto. error:", error);
+              });
+      }
      },
      getSections(){
       const db = firebase.firestore();
@@ -234,32 +302,32 @@ export default {
             });
           })
           .catch((error) => {
-            console.log("No se pudieron cargar los productos. error:", error);
+            console.log("No se pudieron cargar las secciones. error:", error);
           });
      },
-     getProducts(){
-      const db = firebase.firestore();
-      this.productsData = []
-        db.collection("products")
-          .get()
-          .then((result) => {
-            result.forEach((product) => {
-             this.productsData.push({
-                id: product.id,
-                name: product.data().name,
-                img: product.data().img,
-                boxPrice: product.data().boxPrice,
-                individualPrice: product.data().individualPrice,
-                piecesPerBox: product.data().piecesPerBox,
-                section: product.data().section,
-                weight: product.data().weight,
-              });
-            });
-          })
-          .catch((error) => {
-            console.log("No se pudieron cargar los productos. error:", error);
-          });
-     }
+    //  getProducts(){
+    //   const db = firebase.firestore();
+    //   this.productsData = []
+    //     db.collection("products")
+    //       .get()
+    //       .then((result) => {
+    //         result.forEach((product) => {
+    //          this.productsData.push({
+    //             id: product.id,
+    //             name: product.data().name,
+    //             img: product.data().img,
+    //             boxPrice: product.data().boxPrice,
+    //             individualPrice: product.data().individualPrice,
+    //             piecesPerBox: product.data().piecesPerBox,
+    //             section: product.data().section,
+    //             weight: product.data().weight,
+    //           });
+    //         });
+    //       })
+    //       .catch((error) => {
+    //         console.log("No se pudieron cargar los productos. error:", error);
+    //       });
+    //  }
   }
 };
 </script>

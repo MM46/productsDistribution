@@ -12,7 +12,8 @@
             tag="article"
             class="mb-4"
           >
-            <img class = "productImage" :src="getImgUrl(article.img)" />
+            <img v-if="article.img != ''" class = "productImage" :src="article.img" />
+            <img v-else class = "productImage" :src="'https://firebasestorage.googleapis.com/v0/b/productsdistribution.appspot.com/o/imagenotavailable.jpg?alt=media&token=f58052f7-5666-4801-8721-779b0d4db7b4'"/>
             <hr>
             <b-card-title> <h5> {{article.name}} </h5> </b-card-title>
             <h4> ${{article.individualPrice}} MXN </h4>
@@ -26,12 +27,11 @@
 </template>
 
 <script>
-
+import firebase from "../../firebaseConfig"
   export default {
     data() {
       return {
         articles: [],
-        counter: 0,
       }
     },
     components: {
@@ -39,21 +39,20 @@
     },
     mounted() {
       this.getArticles()
-      
     },
     methods: {
       getArticles(){
-        this.articles.push({productId: 21, name: "Rib Eye", weight: 300, individualPrice: 42.00, boxPrice: 2475, piecesPerBox: 60, img: "ribeye"})
-        this.articles.push({productId: 22, name: "Loin Chop", weight: 283, individualPrice: 38.00, boxPrice: 2255, piecesPerBox: 60, img: "loinchop"})
-        this.articles.push({productId: 23, name: "Steak de Cerdo", weight: 500, individualPrice: 76.50, boxPrice: 2295, piecesPerBox: 30, img: "steakcerdo"})
-        this.articles.push({productId: 24, name: "T-Bone", weight: 300, individualPrice: 37.50, boxPrice: 2250, piecesPerBox: 60, img: "tbone"})
-        this.articles.push({productId: 25, name: "Filete Mignón", weight: 585, individualPrice: 126.00, boxPrice: 2645, piecesPerBox: 189, img: "filetemignon"})
-
+      const db = firebase.firestore();
+        db.collection("sections").doc("Cortes Finos")
+          .get()
+          .then((result) => {
+            this.articles = result.data().products
+          })
+          .catch((error) => {
+            console.log("No se pudieron cargar los productos. error:", error);
+          });
       },
-      getImgUrl(img) {
-        var images = require.context('./../../assets/Imagenes/products/', false, /\.jpg$/)
-        return images('./' + img + ".jpg")
-      },
+      
       articleAddedAlert(product) {
         const Toast = this.$swal.mixin({
           toast: true,
