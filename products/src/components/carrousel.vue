@@ -1,6 +1,6 @@
 <template>
   <div class="carrousel">
-    <!-- <b-carousel
+    <b-carousel
       id="carousel-1"
       v-model="slide"
       :interval="4000"
@@ -16,16 +16,17 @@
         <template #img>
           <img
             class="d-block img-fluid w-100"
-            :src= getImgUrl(img)
+            :src= img
             alt=""
           >
         </template>
       </b-carousel-slide>
-    </b-carousel> -->
+    </b-carousel>
   </div>
 </template>
 
 <script>
+  import firebase from "./../firebaseConfig";
   export default {
     data() {
       return {
@@ -44,20 +45,19 @@
       onSlideEnd() {
         this.sliding = false
       },
-      // importAll() {
-      //   const imgs = require.context(
-      //     '@/assets/Imagenes/carrousel/',
-      //     true,
-      //     /\.png$/
-      //   )
-
-      //   for(let i = 1; i <= imgs.keys().length; i++){
-      //      this.carrouselImages.push(i + ".png")
-      //   }
-      // },
-      // getImgUrl(img) {
-      //     return require('../assets/Imagenes/carrousel/' + img)
-      // }
+      importAll() {
+        const db = firebase.firestore();
+            db.collection("carrousel")
+            .get()
+            .then((result) => {
+                result.forEach(image => {
+                    this.carrouselImages.push(image.data().img)
+                });
+            })
+            .catch((error) => {
+                console.log("No se pudieron cargar los productos. error:", error);
+            });
+        },
     }
   }
 </script>

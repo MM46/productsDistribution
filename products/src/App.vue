@@ -186,5 +186,13 @@ hr {
 .modalDetailInfo {
   font-size:12px;
 }
+.carrouselPreview {
+  /* margin-left: 10px;
+  margin-top: 10px;
+  margin-right: 10px; */
+  display:flex;
+  width: 60rem;
+  align-content: center;
+}
 
 </style>
