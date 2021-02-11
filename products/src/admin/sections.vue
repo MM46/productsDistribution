@@ -2,9 +2,85 @@
   <div>
     <b-overlay rounded="sm" >
       <br>
-      <h5>Secciones</h5>
+      <b-row>
+        <b-col md="4"></b-col>
+        <b-col md="4">
+          <h5>Secciones</h5>
+        </b-col>
+        <b-col md="4">
+          <b-button v-b-modal.addSection style="width: 60%; margin-right: 1rem"> 
+            <b-icon-plus/>
+            <small> Añadir Sección </small>
+          </b-button>
+        </b-col>
+      </b-row>
       <hr>
-      <b-container fluid="lg" style="padding-bottom:100px;">
+      <b-modal id="addSection" title="Agregar Sección">
+          <!-- <b-row>
+              <b-col md="6">
+                  <p class="modalDetailInfo" style="padding-top:6px;">Nombre del Producto:</p>
+              </b-col>
+              <b-col md="6">
+                  <b-form-input style="font-size:12px;" :disabled="true" v-model="productName" placeholder="Enter your name"></b-form-input>
+              </b-col>
+          </b-row>
+          <b-row>
+              <b-col md="6">
+                  <p class="modalDetailInfo" style="padding-top:6px;">Precio Individual:</p>
+              </b-col>
+              <b-col md="6">
+                  <b-form-input style="font-size:12px;" :disabled="true" v-model="productIndividualPrice" placeholder="Precio individual"></b-form-input>
+              </b-col>
+          </b-row>
+          <b-row>
+              <b-col md="6">
+                  <p class="modalDetailInfo" style="padding-top:6px;">Piezas por Caja:</p>
+              </b-col>
+              <b-col md="6">
+                  <b-form-input style="font-size:12px;" :disabled="true" v-model="productPiecesPerBox" placeholder="Piezas por Caja"></b-form-input>
+              </b-col>
+          </b-row>
+          <b-row>
+              <b-col md="6">
+                  <p class="modalDetailInfo" style="padding-top:6px;">Precio por Caja:</p>
+              </b-col>
+              <b-col md="6">
+                  <b-form-input style="font-size:12px;" :disabled="true" v-model="productBoxPrice" placeholder="Precio por Caja"></b-form-input>
+              </b-col>
+          </b-row>
+          <b-row>
+              <b-col md="6">
+                  <p class="modalDetailInfo" style="padding-top:6px;">Sección:</p>
+              </b-col>
+              <b-col md="6">
+                  <select
+                  v-model="productSection"
+                  :disabled="true"
+                  style="width: 100%; height: 80%"
+                  class="modalDetailInfo"
+                  >
+                      <option> {{productSection}} </option>
+                  </select>
+              </b-col>
+          </b-row>
+          <b-row>
+              <b-col md="6">
+                  <p class="modalDetailInfo" style="padding-top:6px;">Cajas en Stock:</p>
+              </b-col>
+              <b-col md="6">
+                  <b-form-input style="font-size:12px;" :disabled="true" v-model="productStockPieces" placeholder="Cajas en Stock"></b-form-input>
+              </b-col>
+          </b-row>
+          <b-row>
+              <b-col md="6">
+                  <p class="modalDetailInfo" style="padding-top:6px;">Peso en gr:</p>
+              </b-col>
+              <b-col md="6">
+                  <b-form-input style="font-size:12px;" :disabled="true" v-model="productWeight" placeholder="Peso en gr"></b-form-input>
+              </b-col>
+          </b-row> -->
+      </b-modal>
+      <!-- <b-container fluid="lg" style="padding-bottom:100px;">
         <b-form-row style="padding-top:20px;" deck v-for="article in articles" v-bind:key="article.productId">
             <b-col md="3">
                 <img v-if="article.img != ''" style="height: 4rem;" :src="article.img" />
@@ -27,7 +103,7 @@
             </b-col>
           <hr>
         </b-form-row>
-      </b-container>
+      </b-container> -->
     </b-overlay>
   </div>
 </template>

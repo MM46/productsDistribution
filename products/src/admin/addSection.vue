@@ -6,8 +6,19 @@
         <div class="card">
           <div class="card-header">Agregar Sección</div>
           <div class="card-body">
-            <!-- <form> -->
               <b-row>
+                <b-col md="4">
+                  <label for="id">Id del Producto: </label>
+                </b-col>
+                 <b-col md="8">
+                  <input
+                    :disabled="true"
+                    v-model="id"
+                    type="number"
+                    style="width: 100%"
+                  >
+                </b-col>
+                <br><br>
                 <b-col md="4">
                   <label for="name">Nombre de la Sección: </label>
                 </b-col>
@@ -22,15 +33,16 @@
                 </b-col>
                 <br><br>
                 <b-col md="12">
-                  <b-button
-                    type="submit"
-                    value="Submit"
-                    style="width: 100%"
-                    @click="addSection"
-                  > Añadir Sección </b-button>
+                  <router-link to="agregarSeccion">
+                    <b-button
+                      type="submit"
+                      value="Submit"
+                      style="width: 100%"
+                      @click="addSection"
+                    > Añadir Sección </b-button>
+                  </router-link>
                 </b-col>
               </b-row>
-            <!-- </form> -->
           </div>
         </div>
       </div>
@@ -38,12 +50,14 @@
   </div>
 </template>
 <script>
-import { mapGetters } from "vuex";
-import firebase from "./../firebaseConfig";
+import { mapGetters } from "vuex"
+import firebase from "./../firebaseConfig"
+import utils from "../utils/utils"
 export default {
     data() {
       return {
         name: null,
+        id: Number,
       }
   },
   computed: {
@@ -53,8 +67,23 @@ export default {
     })
   },
   mounted() {
+    this.getSectionId()
   },
  methods: {
+    clearData() {
+      this.id = this.getSectionId()
+      this.name = null
+    },
+    getSectionId() {
+      utils.db.collection("utils").doc("utils")
+        .get()
+        .then((result) => {
+          this.id = result.data().sectionId
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
     sectionAddedSuccesfully(section){
         this.$swal.fire({
             position: 'center',
@@ -63,16 +92,39 @@ export default {
             showConfirmButton: false,
             timer: 3000
         })
+        this.clearData()
+    },
+  checkAllFields() {
+      let isClear = true
+      let html = "<div> <label>Faltan los siguientes datos:</label><br>"
+      if(this.name == null){
+        html += "<small>- Nombre de la Sección</small><br>"
+        isClear = false
+      }
+      html += "</div>"
+      if(!isClear){
+        this.$swal.fire({
+              position: 'center',
+              icon: 'warning',
+              title: 'Error',
+              html: html,
+              showConfirmButton: true,
+          })
+      }
+      return isClear
     },
     addSection() {
-      const db = firebase.firestore();
-        db.collection("sections").doc(this.name).set({name: this.name, products: []})
-        .then(() => {
-            this.sectionAddedSuccesfully(this.name)
-          })
-          .catch((error) => {
-            console.error("No se pudo agregar el producto. error:", error);
-          });
+      if(this.checkAllFields()){
+        const db = firebase.firestore();
+          db.collection("sections").doc(this.name).set({name: this.name, sectionId: Number(this.id)})
+          .then(() => {
+              this.sectionAddedSuccesfully(this.name)
+            })
+            .catch((error) => {
+              console.error("No se pudo agregar el producto. error:", error);
+            });
+            utils.updateSectionId()
+      }
      },
   }
 };

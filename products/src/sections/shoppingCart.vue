@@ -32,19 +32,20 @@
                     <br>
                     <b-row align-v="center">
                       <b-col md="3">
-                      <img :src="getImgUrl(product.product.img)" style = "width: 70%; height: 70%;"/>
+                        <img v-if="product.product.img != ''" style = "width: 70%; height: 70%;" :src="product.product.img" />
+                        <img v-else style = "width: 70%; height: 70%;" :src="'https://firebasestorage.googleapis.com/v0/b/productsdistribution.appspot.com/o/imagenotavailable.jpg?alt=media&token=f58052f7-5666-4801-8721-779b0d4db7b4'"/>
                       </b-col>
                       <b-col md="6">
                         <h5> {{product.product.name}} </h5> 
                         <p> Precio Individual: ${{product.product.individualPrice}} </p> 
                       </b-col>
                       <b-col md="3">
+                   <b-button v-on:click="subtracQuantityToProduct(product.product.productId)" class="quantity">
+                          <b-icon-dash-circle variant="secondary" font-scale="1"></b-icon-dash-circle> 
+                        </b-button> 
+                        {{product.quantity}}
                         <b-button v-on:click="addQuantityToProduct(product.product.productId)" class="quantity">
                           <b-icon-plus-circle  variant="secondary" font-scale="1"></b-icon-plus-circle> 
-                        </b-button> 
-                          {{product.quantity}}
-                        <b-button v-on:click="subtracQuantityToProduct(product.product.productId)" class="quantity">
-                          <b-icon-dash-circle variant="secondary" font-scale="1"></b-icon-dash-circle> 
                         </b-button> 
                       </b-col>
                     </b-row>

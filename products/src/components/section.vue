@@ -2,10 +2,10 @@
   <div>
     <b-overlay rounded="sm" >
       <hr>
-      <h1>Cortes Frescos</h1>
+      <h1>{{name}}</h1>
       <hr>
        <b-row>
-        <b-card-group class="col-md-4" deck v-for="article in articles" :key="article.productId" >
+       <b-card-group class="col-md-4" deck v-for="article in articles" :key="article.productId" >
           <b-card
             img-alt="Image"
             img-top
@@ -25,33 +25,22 @@
     <br><br><br><br><br><br><br><br>
   </div>
 </template>
-
 <script>
-import firebase from "../../firebaseConfig"
   export default {
     data() {
       return {
-        articles: [],
       }
+    },
+    props: {
+      'name': String,
+      'articles': Array
     },
     components: {
 
     },
     mounted() {
-      this.getArticles()
     },
     methods: {
-      getArticles(){
-        const db = firebase.firestore();
-          db.collection("sections").doc("Cortes Frescos")
-            .get()
-            .then((result) => {
-              this.articles = result.data().products
-            })
-            .catch((error) => {
-              console.log("No se pudieron cargar los productos. error:", error);
-            });
-      },
       articleAddedAlert(product) {
         const Toast = this.$swal.mixin({
           toast: true,

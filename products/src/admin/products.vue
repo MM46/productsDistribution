@@ -2,7 +2,18 @@
   <div>
     <b-overlay rounded="sm" >
       <br>
-      <h5>Productos</h5>
+      <b-row>
+        <b-col md="4"></b-col>
+        <b-col md="4">
+          <h5>Productos</h5>
+        </b-col>
+        <b-col md="4">
+          <b-button v-b-modal.addProduct style="width: 60%; margin-right: 1rem"> 
+            <b-icon-plus/>
+            <small> Añadir Producto </small>
+          </b-button>
+        </b-col>
+      </b-row>
       <hr>
       <b-container fluid="lg" style="padding-bottom:100px;">
         <b-form-row style="padding-top:20px;" deck v-for="article in articles" v-bind:key="article.productId">
@@ -14,7 +25,7 @@
                 <label style="padding-top:20px;"> {{article.name}} </label> 
             </b-col>
             <b-col md="3" style="padding-top:20px;"> 
-                <b-button v-b-modal.modal variant="link" @click="updateInfo(
+                <b-button v-b-modal.detalInfo variant="link" @click="updateInfo(
                     article.name, 
                     article.boxPrice, 
                     article.img, 
@@ -27,7 +38,7 @@
             </b-col>
           <hr>
         </b-form-row>
-            <b-modal id="modal" title="Información Detallada">
+            <b-modal id="detalInfo" title="Información Detallada">
                 <b-row>
                     <b-col md="6">
                         <p class="modalDetailInfo" style="padding-top:6px;">Nombre del Producto:</p>
@@ -92,6 +103,71 @@
                     </b-col>
                 </b-row>
             </b-modal>
+            <b-modal id="addProduct" title="Agregar Producto">
+                <!-- <b-row>
+                    <b-col md="6">
+                        <p class="modalDetailInfo" style="padding-top:6px;">Nombre del Producto:</p>
+                    </b-col>
+                    <b-col md="6">
+                        <b-form-input style="font-size:12px;" :disabled="true" v-model="productName" placeholder="Enter your name"></b-form-input>
+                    </b-col>
+                </b-row>
+                <b-row>
+                    <b-col md="6">
+                        <p class="modalDetailInfo" style="padding-top:6px;">Precio Individual:</p>
+                    </b-col>
+                    <b-col md="6">
+                        <b-form-input style="font-size:12px;" :disabled="true" v-model="productIndividualPrice" placeholder="Precio individual"></b-form-input>
+                    </b-col>
+                </b-row>
+                <b-row>
+                    <b-col md="6">
+                        <p class="modalDetailInfo" style="padding-top:6px;">Piezas por Caja:</p>
+                    </b-col>
+                    <b-col md="6">
+                        <b-form-input style="font-size:12px;" :disabled="true" v-model="productPiecesPerBox" placeholder="Piezas por Caja"></b-form-input>
+                    </b-col>
+                </b-row>
+                <b-row>
+                    <b-col md="6">
+                        <p class="modalDetailInfo" style="padding-top:6px;">Precio por Caja:</p>
+                    </b-col>
+                    <b-col md="6">
+                        <b-form-input style="font-size:12px;" :disabled="true" v-model="productBoxPrice" placeholder="Precio por Caja"></b-form-input>
+                    </b-col>
+                </b-row>
+                <b-row>
+                    <b-col md="6">
+                        <p class="modalDetailInfo" style="padding-top:6px;">Sección:</p>
+                    </b-col>
+                    <b-col md="6">
+                        <select
+                        v-model="productSection"
+                        :disabled="true"
+                        style="width: 100%; height: 80%"
+                        class="modalDetailInfo"
+                        >
+                            <option> {{productSection}} </option>
+                        </select>
+                    </b-col>
+                </b-row>
+               <b-row>
+                    <b-col md="6">
+                        <p class="modalDetailInfo" style="padding-top:6px;">Cajas en Stock:</p>
+                    </b-col>
+                    <b-col md="6">
+                        <b-form-input style="font-size:12px;" :disabled="true" v-model="productStockPieces" placeholder="Cajas en Stock"></b-form-input>
+                    </b-col>
+                </b-row>
+                <b-row>
+                    <b-col md="6">
+                        <p class="modalDetailInfo" style="padding-top:6px;">Peso en gr:</p>
+                    </b-col>
+                    <b-col md="6">
+                        <b-form-input style="font-size:12px;" :disabled="true" v-model="productWeight" placeholder="Peso en gr"></b-form-input>
+                    </b-col>
+                </b-row> -->
+            </b-modal>
       </b-container>
     </b-overlay>
   </div>
@@ -145,28 +221,6 @@ import firebase from "../firebaseConfig"
             console.log("No se pudieron cargar los productos. error:", error);
           });
       },
-    //   articleAddedAlert(product) {
-    //     const Toast = this.$swal.mixin({
-    //       toast: true,
-    //       position: 'bottom-end',
-    //       showConfirmButton: false,
-    //       timer: 3000,
-    //       timerProgressBar: false,
-    //       didOpen: (toast) => {
-    //         toast.addEventListener('mouseenter', this.$swal.stopTimer)
-    //         toast.addEventListener('mouseleave', this.$swal.resumeTimer)
-    //       }
-    //     })
-    //     if(product.productId in this.$shoppingCartList){
-    //       this.$shoppingCartList[product.productId].quantity += 1
-    //     }else{
-    //       this.$shoppingCartList[product.productId] = {product: product, quantity: 1}
-    //     }
-    //     Toast.fire({
-    //       icon: 'success',
-    //       title: product.name + ' ha sido añadido a tu carrito'
-    //     })
-    //   }
     },
   }
 </script>

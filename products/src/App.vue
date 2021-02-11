@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <loading :active.sync="isLoading"/>
     <navigation-bar/>
     <main class="py-4">
       <router-view></router-view>
@@ -12,6 +13,7 @@
 export default {
 data () {
     return {
+      isLoading: false,
     }
   },
   components: {
@@ -186,13 +188,11 @@ hr {
 .modalDetailInfo {
   font-size:12px;
 }
-.carrouselPreview {
-  /* margin-left: 10px;
-  margin-top: 10px;
-  margin-right: 10px; */
-  display:flex;
-  width: 60rem;
-  align-content: center;
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
 }
 
 </style>

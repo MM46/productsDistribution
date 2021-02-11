@@ -8,6 +8,18 @@
           <div class="card-body">
               <b-row>
                 <b-col md="4">
+                  <label for="id">Id del Producto: </label>
+                </b-col>
+                 <b-col md="8">
+                  <input
+                    :disabled="true"
+                    v-model="id"
+                    type="number"
+                    style="width: 100%"
+                  >
+                </b-col>
+                <br><br>
+                <b-col md="4">
                   <label for="name">Nombre del Producto: </label>
                 </b-col>
                  <b-col md="8">
@@ -117,10 +129,12 @@
                 </b-col>
               <br><br><br><br>
                 <b-col md="12">
-                  <b-button
-                    style="width: 100%"
-                    @click="addProduct"
-                  > Añadir Producto </b-button>
+                  <router-link to="agregarProducto">
+                    <b-button
+                      style="width: 100%"
+                      @click="addProduct"
+                    > Añadir Producto </b-button>
+                  </router-link>
                 </b-col>
               </b-row>
               <br><br><br><br>
@@ -131,14 +145,15 @@
   </div>
 </template>
 <script>
-import { mapGetters } from "vuex";
-import firebase from "./../firebaseConfig";
+import { mapGetters } from "vuex"
+import utils from "../utils/utils"
 export default {
     data() {
       return {
         productsData: [],
         img: '',
         imageData: null,
+        id: Number,
         name: null,
         weight: null,
         individualPrice: null,
@@ -157,10 +172,22 @@ export default {
     })
   },
   mounted() {
-    this.getSections()
+    this.getProductId()
+    this.sections = utils.getSections()
   },
  methods: {
+    getProductId() {
+      utils.db.collection("utils").doc("utils")
+        .get()
+        .then((result) => {
+          this.id = result.data().productId
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
     clearData() {
+      this.id = this.getProductId()
       this.name = null
       this.weight = null
       this.individualPrice = null
@@ -180,18 +207,6 @@ export default {
         })
         this.clearData()
     },
-      create () {
-        const post = {
-          photo: this.img,  
-        }
-        firebase.database().ref().push(post)
-        .then((response) => {
-          console.log(response)
-        })
-        .catch(err => {
-          console.log(err)
-        })
-      },
     previewImage(event) {
       this.uploadValue = 0
       this.img = null
@@ -200,7 +215,7 @@ export default {
     },
     onUpload(){
       this.img = null
-      const storageRef = firebase.storage().ref(`${this.imageData.name}`).put(this.imageData);
+      const storageRef = utils.fb.ref(`${this.imageData.name}`).put(this.imageData);
       storageRef.on(`state_changed`, snapshot => {
       this.uploadValue = (snapshot.bytesTransferred/snapshot.totalBytes)*100;
         }, error => {console.log(error.message)},
@@ -211,25 +226,6 @@ export default {
           }      
         );
     },
-    addProductToSection(data) {
-      const db = firebase.firestore();
-      const sectionRef = db.collection("sections").doc(data.section);
-
-      return db.runTransaction(function(transaction) {
-          return transaction.get(sectionRef).then(function(section) {
-              if (!section.exists) {
-                  throw "La sección no existe!";
-              }
-              const products = section.data().products
-              products.push(data)
-              transaction.update(sectionRef, { products: products });
-          });
-      }).then(function() {
-          console.log("Transaction successfully committed!");
-      }).catch(function(error) {
-          console.log("Transaction failed: ", error);
-      });
-     },
     checkAllFields() {
       let isClear = true
       let html = "<div> <label>Faltan los siguientes datos:</label><br>"
@@ -275,59 +271,29 @@ export default {
     },
     addProduct() {
       if(this.checkAllFields()){
-          this.create()
-          const data = {name: this.name, weight: this.weight, individualPrice: this.individualPrice, boxPrice: this.boxPrice, piecesPerBox: this.piecesPerBox, img: this.img, section: this.selectedSection, stockPieces: this.stockPieces}
-          const db = firebase.firestore()
-            db.collection("products")
-              .add(data)
-              .then(() => {
-                this.addProductToSection(data)
-                this.productAddedSuccesfully(this.name)
-              })
-              .catch((error) => {
-                console.error("No se pudo agregar el producto. error:", error);
-              });
+          utils.createImg(this.img)
+          const data = {
+            productId: Number(this.id), 
+            name: this.name, 
+            weight: Number(this.weight), 
+            individualPrice: Number(this.individualPrice), 
+            boxPrice: Number(this.boxPrice), 
+            piecesPerBox: Number(this.piecesPerBox), 
+            img: this.img, 
+            section: this.selectedSection, 
+            stockPieces: Number(this.stockPieces)}
+          const db = utils.db
+          db.collection("products")
+            .add(data)
+            .then(() => {
+              this.productAddedSuccesfully(this.name)
+            })
+            .catch((error) => {
+              console.error("No se pudo agregar el producto. error:", error);
+            });
+            utils.updateProductId()
       }
      },
-     getSections(){
-      const db = firebase.firestore();
-      this.sections = []
-        db.collection("sections")
-          .get()
-          .then((result) => {
-            result.forEach((section) => {
-             this.sections.push({
-                name: section.data().name,
-              });
-            });
-          })
-          .catch((error) => {
-            console.log("No se pudieron cargar las secciones. error:", error);
-          });
-     },
-    //  getProducts(){
-    //   const db = firebase.firestore();
-    //   this.productsData = []
-    //     db.collection("products")
-    //       .get()
-    //       .then((result) => {
-    //         result.forEach((product) => {
-    //          this.productsData.push({
-    //             id: product.id,
-    //             name: product.data().name,
-    //             img: product.data().img,
-    //             boxPrice: product.data().boxPrice,
-    //             individualPrice: product.data().individualPrice,
-    //             piecesPerBox: product.data().piecesPerBox,
-    //             section: product.data().section,
-    //             weight: product.data().weight,
-    //           });
-    //         });
-    //       })
-    //       .catch((error) => {
-    //         console.log("No se pudieron cargar los productos. error:", error);
-    //       });
-    //  }
   }
 };
 </script>
