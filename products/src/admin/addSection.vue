@@ -8,7 +8,7 @@
           <div class="card-body">
               <b-row>
                 <b-col md="4">
-                  <label for="id">Id del Producto: </label>
+                  <label for="id">Id de la Sección: </label>
                 </b-col>
                  <b-col md="8">
                   <input
@@ -119,6 +119,7 @@ export default {
           db.collection("sections").doc(this.name).set({name: this.name, sectionId: Number(this.id)})
           .then(() => {
               this.sectionAddedSuccesfully(this.name)
+              this.$router.go(-1)
             })
             .catch((error) => {
               console.error("No se pudo agregar el producto. error:", error);

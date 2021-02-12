@@ -287,11 +287,12 @@ export default {
             .add(data)
             .then(() => {
               this.productAddedSuccesfully(this.name)
+              utils.updateProductId()
+              this.$router.go(-1)
             })
             .catch((error) => {
               console.error("No se pudo agregar el producto. error:", error);
             });
-            utils.updateProductId()
       }
      },
   }

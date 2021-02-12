@@ -194,5 +194,10 @@ hr {
   margin-right: auto;
   width: 50%;
 }
-
+.divider {
+   background: #d9d9d9; 
+   padding: 0.2px; 
+   width: 100%; 
+   margin-top: 10px;
+}
 </style>
