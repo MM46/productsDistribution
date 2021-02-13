@@ -1,7 +1,6 @@
 <template>
   <div>
     <carrousel/>
-    <sections/>
     <footer/>
   </div>
 </template>
