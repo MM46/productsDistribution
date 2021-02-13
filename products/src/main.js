@@ -21,6 +21,7 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 import 'bootstrap-vue/dist/bootstrap-vue-icons.min.css'
 import 'vue-loading-overlay/dist/vue-loading.css';
 import store from "./store";
+import firebase from "./firebaseConfig"
 export const serverBus = new Vue();
 
 Vue.component("loading", Loading)
@@ -68,20 +69,33 @@ const router = new VueRouter({
       {
           path: '/agregarProducto',
           name: 'agregarProducto',
-          component: agregarProducto
+          component: agregarProducto,
+          meta: {
+            auth: true
+         }
       },
       {
         path: '/agregarSeccion',
         name: 'agregarSeccion',
-        component: agregarSeccion
+        component: agregarSeccion,
+        meta: {
+            auth: true
+         }
     },
     {
         path: '/dashboard',
         name: 'dashboard',
-        component: dashboard
+        component: dashboard,
+        meta: {
+            auth: true
+         }
     },
 ]
 });
+
+firebase.auth().onAuthStateChanged(user => {
+    store.dispatch("fetchUser", user);
+  });
 
 new Vue({
   el: '#app',

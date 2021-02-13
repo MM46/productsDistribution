@@ -65,14 +65,26 @@ export default {
       error: null
     };
   },
+    created() {
+        firebase.auth().onAuthStateChanged(userAuth => {
+            if (userAuth) {
+                firebase
+                    .auth()
+                    .currentUser.getIdTokenResult()
+                    .then(tokenResult => {
+                        console.log(tokenResult.claims);
+                    });
+            }
+        });
+    },
   methods: {
     submit() {
       firebase
         .auth()
         .signInWithEmailAndPassword(this.form.email, this.form.password)
         .then(data => {
-          alert(data)
-          this.$router.replace({ name: "Dashboard" });
+          this.$router.replace({ name: "home" })
+          return data
         })
         .catch(err => {
           this.error = err.message;
