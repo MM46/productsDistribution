@@ -84,17 +84,28 @@ export default {
       error: null
     };
   },
+    created() {
+        firebase.auth().onAuthStateChanged(userAuth => {
+            if (userAuth) {
+              this.$router.replace({ name: "home" })
+            }
+        });
+    },
   methods: {
     submit() {
       firebase
         .auth()
         .createUserWithEmailAndPassword(this.form.email, this.form.password)
         .then(data => {
+          firebase.firestore().collection("users").doc(data.user.uid).set({
+          name: this.form.name,
+          email: this.form.email,
+          role: "user"
+          })
           data.user
             .updateProfile({
               displayName: this.form.name
             })
-            .then(() => {});
         })
         .catch(err => {
           this.error = err.message;

@@ -1,8 +1,6 @@
 import firebase from "./../firebaseConfig"
 const db = firebase.firestore()
 const fb = firebase.storage()
-// const sectionId = getSectionId()
-// const productId = 6
 
 function createImg(img) {
     const post = { photo: img}
@@ -177,5 +175,5 @@ export default {
   succesfullyAlert,
   errorAlert,
   areYouSureAlert,
-  getImages,
+  getImages
 }

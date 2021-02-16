@@ -68,12 +68,7 @@ export default {
     created() {
         firebase.auth().onAuthStateChanged(userAuth => {
             if (userAuth) {
-                firebase
-                    .auth()
-                    .currentUser.getIdTokenResult()
-                    .then(tokenResult => {
-                        console.log(tokenResult.claims);
-                    });
+              this.$router.replace({ name: "home" })
             }
         });
     },
@@ -83,7 +78,7 @@ export default {
         .auth()
         .signInWithEmailAndPassword(this.form.email, this.form.password)
         .then(data => {
-          this.$router.replace({ name: "home" })
+          this.$router.replace({ name: "dashboard" })
           return data
         })
         .catch(err => {

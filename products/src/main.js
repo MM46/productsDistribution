@@ -20,8 +20,9 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import 'bootstrap-vue/dist/bootstrap-vue-icons.min.css'
 import 'vue-loading-overlay/dist/vue-loading.css';
+// import firebase from "./firebaseConfig"
 import store from "./store";
-import firebase from "./firebaseConfig"
+import auth from "./utils/auth"
 export const serverBus = new Vue();
 
 Vue.component("loading", Loading)
@@ -36,7 +37,6 @@ Vue.use(VueSweetalert2)
 Vue.use(BootstrapVue, BootstrapVueIcons, IconsPlugin)
 Vue.config.productionTip = false
 Vue.prototype.$shoppingCartList = {}
-
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
@@ -70,32 +70,24 @@ const router = new VueRouter({
           path: '/agregarProducto',
           name: 'agregarProducto',
           component: agregarProducto,
-          meta: {
-            auth: true
-         }
+          meta: { requiresAuth: true }
       },
       {
         path: '/agregarSeccion',
         name: 'agregarSeccion',
         component: agregarSeccion,
-        meta: {
-            auth: true
-         }
+        meta: { requiresAuth: true }
     },
     {
         path: '/dashboard',
         name: 'dashboard',
         component: dashboard,
-        meta: {
-            auth: true
-         }
+        meta: { requiresAuth: true }
     },
 ]
 });
 
-firebase.auth().onAuthStateChanged(user => {
-    store.dispatch("fetchUser", user);
-  });
+auth.loggedIn(store, router)
 
 new Vue({
   el: '#app',
