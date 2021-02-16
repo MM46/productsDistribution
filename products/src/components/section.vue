@@ -12,8 +12,8 @@
             tag="article"
             class="mb-4"
           >
-            <img v-if="article.img != ''" class = "productImage" :src="article.img" />
-            <img v-else class = "productImage" :src="'https://firebasestorage.googleapis.com/v0/b/productsdistribution.appspot.com/o/imagenotavailable.jpg?alt=media&token=f58052f7-5666-4801-8721-779b0d4db7b4'"/>
+            <b-img v-if="article.img != ''" :src="article.img" fluid center></b-img>
+            <b-img v-else :src="'https://firebasestorage.googleapis.com/v0/b/productsdistribution.appspot.com/o/imagenotavailable.jpg?alt=media&token=f58052f7-5666-4801-8721-779b0d4db7b4'" fluid center></b-img>
             <hr>
             <b-card-title> <h5> {{article.name}} </h5> </b-card-title>
             <h4> ${{article.individualPrice}} MXN </h4>

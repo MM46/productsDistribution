@@ -32,8 +32,8 @@
                     <br>
                     <b-row align-v="center">
                       <b-col md="3">
-                        <img v-if="product.product.img != ''" style = "width: 70%; height: 70%;" :src="product.product.img" />
-                        <img v-else style = "width: 70%; height: 70%;" :src="'https://firebasestorage.googleapis.com/v0/b/productsdistribution.appspot.com/o/imagenotavailable.jpg?alt=media&token=f58052f7-5666-4801-8721-779b0d4db7b4'"/>
+                        <b-img center v-if="product.product.img != ''" :src="product.product.img" fluid></b-img>
+                        <b-img center v-else :src="'https://firebasestorage.googleapis.com/v0/b/productsdistribution.appspot.com/o/imagenotavailable.jpg?alt=media&token=f58052f7-5666-4801-8721-779b0d4db7b4'" fluid></b-img>
                       </b-col>
                       <b-col md="6">
                         <h5> {{product.product.name}} </h5> 

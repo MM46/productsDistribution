@@ -14,11 +14,7 @@
 
       <b-carousel-slide v-for="img in carrouselImages" :key="img">
         <template #img>
-          <img
-            class="d-block img-fluid w-100"
-            :src= img
-            alt=""
-          >
+          <b-img center :src= img fluid />
         </template>
       </b-carousel-slide>
     </b-carousel>

@@ -113,9 +113,9 @@
                   </b-col>
                   <br><br>
                   <b-col md="12">
-                    <div v-if="imageData!=null">                     
-                    <img class="preview" height="150" width="200" :src="img">
-                    <br><br>
+                    <div v-if="imageData!=null">  
+                      <b-img center :src="img" fluid></b-img>        
+                      <br><br>
                     </div> 
                     </b-col>
                 <b-col md="12">

@@ -20,7 +20,7 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import 'bootstrap-vue/dist/bootstrap-vue-icons.min.css'
 import 'vue-loading-overlay/dist/vue-loading.css';
-// import firebase from "./firebaseConfig"
+import firebase from "./firebaseConfig"
 import store from "./store";
 import auth from "./utils/auth"
 export const serverBus = new Vue();
@@ -87,7 +87,11 @@ const router = new VueRouter({
 ]
 });
 
-auth.loggedIn(store, router)
+auth.loggedIn(router)
+
+firebase.auth().onAuthStateChanged(userAuth => {
+    store.dispatch("fetchUser", userAuth)
+})
 
 new Vue({
   el: '#app',

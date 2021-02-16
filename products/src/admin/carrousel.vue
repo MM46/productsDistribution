@@ -28,7 +28,7 @@
           </b-form-row>
           <b-form-row style="padding-top:20px;" deck v-for="img in carrouselImages" v-bind:key="img.id">
             <b-col md="4">
-                <img class="center" v-if="img.img != ''" :src="img.img" />
+              <b-img center v-if="img.img != ''" :src="img.img" fluid></b-img>
             </b-col>
             <b-col md="6">
               <div>
@@ -53,6 +53,7 @@
       cancel-hidden="true"
       ok-only
       @ok="addImageToCarrousel"
+      @close="clearData"
       >
       <b-container fluid="lg" style="padding-bottom:100px;">
         <b-form-row style="padding-top:50px;">
@@ -60,7 +61,7 @@
                 <div v-if="imageData!=null">
                   <h6>Imagen a agregar:</h6>
                     <b-overlay :show="loadingPhoto">
-                        <img class="center" :src="img">
+                      <b-img center :src="img" fluid></b-img>
                         <br><br>
                     </b-overlay>
                 </div> 
@@ -75,6 +76,7 @@
               accept="image/*" 
               @change="previewImage"
               style="width: 100%"
+              fluid
             >
             <br>
           </b-col>
