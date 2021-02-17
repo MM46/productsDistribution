@@ -86,13 +86,47 @@ function getAllProducts(){
     .get()
     .then((result) => {
         result.forEach(product => {
-          products.push(product.data())
+          products.push({uid: product.id, products: product.data()})
         });
     })
     .catch((error) => {
       console.log(error);
     });
     return products
+}
+
+function updateProduct(succeedTitle, succeedText, errorTitle, errorText, swal, data){
+  swal({
+    title: '¿Estás seguro?',
+    text: "Se modificará la información de este producto.",
+    icon: 'warning',
+    confirmButtonText: 'Guardar Cambios',
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    cancelButtonText: 'Cancelar',
+    showCancelButton: true,
+  }).then((result) => {
+    if (result.isConfirmed) {
+        return db.collection("products").doc(data.doc).update({
+          name: data.name,
+          boxPrice: data.boxPrice,
+          img: data.img,
+          individualPrice: data.individualPrice,
+          piecesPerBox: data.piecesPerBox,
+          section: data.section,
+          stockPieces: data.stockPieces,
+          weight: data.weight,
+          productId: data.productId,
+        })
+        .then(function() {
+            succesfullyAlert(swal, succeedTitle, succeedText)
+        })
+        .catch(function(error) {
+          errorAlert(swal, errorTitle, errorText)
+          console.log(error)
+        });
+    }
+  })
 }
 
 function getImages(){
@@ -175,5 +209,7 @@ export default {
   succesfullyAlert,
   errorAlert,
   areYouSureAlert,
-  getImages
+  getImages,
+  updateProduct,
+
 }

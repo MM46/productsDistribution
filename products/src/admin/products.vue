@@ -29,44 +29,46 @@
                     </b-col>
                     <b-col md="3"></b-col>
                 </b-form-row>
-                <b-form-row style="padding-top:20px;" deck v-for="article in articles" v-bind:key="article.productId">
+                <b-form-row style="padding-top:20px;" deck v-for="article in articles" v-bind:key="article.products.productId">
                     <b-col md="1" style="padding-top:20px;">
-                        <h6 > {{article.productId}} </h6>
+                        <h6 > {{article.products.productId}} </h6>
                     </b-col>
                     <b-col md="2">
-                        <b-img v-if="article.img != ''" :src="article.img" fluid center></b-img>
+                        <b-img v-if="article.products.img != ''" :src="article.products.img" fluid center></b-img>
                         <b-img v-else :src="'https://firebasestorage.googleapis.com/v0/b/productsdistribution.appspot.com/o/imagenotavailable.jpg?alt=media&token=f58052f7-5666-4801-8721-779b0d4db7b4'" fluid center></b-img>
                     </b-col>
                     <b-col md="6"> 
-                        <label style="padding-top:20px;"> {{article.name}} </label> 
+                        <label style="padding-top:20px;"> {{article.products.name}} </label> 
                     </b-col>
                     <b-col md="3" style="padding-top:10px;"> 
                         <b-button 
+                            center
                             style="margin-right: 5px" 
                             v-b-modal.detalInfo 
                             variant="dark" 
-                            :style="'font-size:12px'"
+                            :style="'font-size:15px'"
                             @click="updateInfo(
-                                article.name, 
-                                article.boxPrice, 
-                                article.img, 
-                                article.individualPrice, 
-                                article.piecesPerBox, 
-                                article.section, 
-                                article.stockPieces, 
-                                article.weight,
-                                article.productId
+                                article.products.name, 
+                                article.products.boxPrice, 
+                                article.products.img, 
+                                article.products.individualPrice, 
+                                article.products.piecesPerBox, 
+                                article.products.section, 
+                                article.products.stockPieces, 
+                                article.products.weight,
+                                article.products.productId,
+                                article.uid
                             )"> 
                             
                             <b-icon-eye-fill/>  
                         </b-button> 
-                        <b-button :style="'font-size:12px'" variant="light">
+                        <b-button center :style="'font-size:15px'" variant="light" @click="deleteProduct(article.uid)">
                             <b-icon-trash-fill variant="dark"></b-icon-trash-fill>
                         </b-button> 
                     </b-col>
                     <div class="divider" />
                 </b-form-row>
-                <b-modal id="detalInfo" title="Información Detallada" @ok="resetEdits" @cancel="resetEdits" @close="resetEdits" :ok-title="'Guardar Cambios'">
+                <b-modal id="detalInfo" title="Información Detallada" @ok="updateProduct()" @cancel="resetEdits" @close="resetEdits" :ok-title="'Guardar Cambios'">
                     <b-form-row>
                         <b-col md="5">
                             <p class="modalDetailInfo" style="padding-top:6px;">Id del Producto:</p>
@@ -178,6 +180,26 @@
                             </b-button>
                         </b-col>
                     </b-form-row>
+                   <b-form-row>
+                       <b-col md="12" class="text-center">
+                            <small  style="padding-top:6px;">Imagen</small>
+                        </b-col>
+                    </b-form-row>
+                    <b-form-row>
+                        <b-col md="12">
+                            <div class="text-center" v-if="productImg != ''">
+                                 <b-img class="center" style="padding-top:10px;" v-if="productImg != ''" :src="productImg" fluid center></b-img>
+                            </div>
+                            <div v-else style="padding-top:3px;" class="text-center">
+                                <small> Este producto no tiene imagen </small>
+                            </div>
+                        </b-col>
+                    </b-form-row>
+                    <b-form-row>
+                        <b-col md="12" class="text-center">
+                            <b-button variant="link"> Cambiar Imagen </b-button>
+                        </b-col>
+                    </b-form-row>
                 </b-modal>
             </b-container>
         </b-overlay>
@@ -207,6 +229,7 @@ import utils from "../utils/utils"
         productStockPieces: null,
         productWeight: null,
         productId: null,
+        productUID: null,
         nameEdit: true,
         individualPriceEdit: true,
         piecesPerBoxEdit: true,
@@ -227,7 +250,47 @@ import utils from "../utils/utils"
         this.sections = utils.getSections()
     },
     methods: {
-        updateInfo(name, boxPrice, img, individualPrice, piecesPerBox, section, stockPieces, weight, id){
+        updateProduct(){
+            utils.updateProduct(
+                'Operación Exitosa', 
+                'El Producto fue modificado exitosamente', 
+                'Error', 
+                'El Producto no fue modificado',
+                this.$swal.fire, 
+                {
+                    name: this.productName,
+                    boxPrice: this.productBoxPrice,
+                    img: this.productImg,
+                    individualPrice: this.productIndividualPrice,
+                    piecesPerBox: this.productPiecesPerBox,
+                    section: this.productSection,
+                    stockPieces: this.productStockPieces,
+                    weight: this.productWeight,
+                    productId: this.productId,
+                    doc: this.productUID,
+                }
+            )
+            this.resetEdits()
+            setTimeout(() => {
+                this.articles = utils.getAllProducts()
+            }, 5000);
+        },
+        deleteProduct(doc){
+            utils.areYouSureAlert(
+            this.$swal.fire,
+            "El producto sera eliminado permanentemente.", 
+            "products", 
+            doc, 
+            'Operación Exitosa', 
+            'El producto fue eliminado de la Base de Datos',
+            'Error', 
+            'No se pudo eliminar el producto',
+            )
+            setTimeout(() => {
+                this.articles = utils.getAllProducts()
+            }, 5000);
+        },
+        updateInfo(name, boxPrice, img, individualPrice, piecesPerBox, section, stockPieces, weight, id, uid){
             this.productName = name
             this.productBoxPrice = boxPrice
             this.productImg = img
@@ -237,7 +300,7 @@ import utils from "../utils/utils"
             this.productStockPieces = stockPieces
             this.productWeight = weight
             this.productId = id
-
+            this.productUID = uid
         },
         resetEdits(){
             this.nameEdit = true
