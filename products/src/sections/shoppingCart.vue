@@ -1,6 +1,5 @@
 <template>
   <div class = "page">
-    <navigation-bar/>
     <div>
       <b-jumbotron>
         <br><br><br>
@@ -10,6 +9,10 @@
     <div v-if="isEmpty">
       <hr>
         No tienes articulos en tu carrito!
+        <br>
+        <b-link :to="'productos'" variant="light" class="quantity">
+          Ver Productos > 
+        </b-link> 
       <hr>
     </div>
     <div v-else>
@@ -27,7 +30,7 @@
                     </b-row>
                 </b-container>
                 <br>
-                <b-list-group v-for="product in shoppingCartList" v-bind:key="product.product.productId">
+                <b-list-group v-for="product in shoppingCartList" v-bind:key="product.id">
                   <b-container class="bv-example-row">
                     <br>
                     <b-row align-v="center">
@@ -40,11 +43,11 @@
                         <p> Precio Individual: ${{product.product.individualPrice}} </p> 
                       </b-col>
                       <b-col md="3">
-                   <b-button v-on:click="subtracQuantityToProduct(product.product.productId)" class="quantity">
+                   <b-button v-on:click="subtracQuantityToProduct(product.id)" class="quantity">
                           <b-icon-dash-circle variant="secondary" font-scale="1"></b-icon-dash-circle> 
                         </b-button> 
                         {{product.quantity}}
-                        <b-button v-on:click="addQuantityToProduct(product.product.productId)" class="quantity">
+                        <b-button v-on:click="addQuantityToProduct(product.id)" class="quantity">
                           <b-icon-plus-circle  variant="secondary" font-scale="1"></b-icon-plus-circle> 
                         </b-button> 
                       </b-col>
@@ -58,7 +61,7 @@
                         content-cols-sm
                         content-cols-lg="7"
                       >
-                          <b-button variant="light" v-on:click="deleteProduct(product.product.productId)" class="quantity">
+                          <b-button variant="light" v-on:click="deleteProduct(product.id)" class="quantity">
                             <b-icon-trash-fill variant="secondary" font-scale="1"></b-icon-trash-fill>
                             Remover Producto 
                           </b-button> 
@@ -124,6 +127,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import { BIconTrashFill, BIconPlusCircle, BIconDashCircle } from 'bootstrap-vue'
 export default {
     data() {
@@ -131,48 +135,52 @@ export default {
         shoppingCartList: {},
         isEmpty: true,
         shoppingCartItems: 0,
-        totalToPay: 0,
+        amount: 0,
       }
   },
-
+  computed: {
+    ...mapGetters({
+      cart: "cart",
+      totalToPay: "totalToPay",
+      totalProducts: "totalProducts"
+    })
+  },
   mounted() {
-    this.shoppingCartList = this.$shoppingCartList
-    this.shoppingCartItems = this.getShoppingCartQuantity()
+    this.getShoppingCart()
     this.getTotalToPay()
-    this.isEmpty = this.shoppingCartItems > 0 ? false : true
+    this.getTotalProducts()
   },
   components: {
     BIconPlusCircle,
     BIconDashCircle,
     BIconTrashFill,
   },
-  computed: {
-  },
   methods: {
-    deleteProduct(product){
-      this.$delete(this.$shoppingCartList, product);
-      this.isEmpty = Object.keys(this.shoppingCartList).length > 0 ? false : true
+    getShoppingCart(){
+      this.shoppingCartList = this.$store.getters.cart.data
+    },
+    deleteProduct(id){
+      this.$store.dispatch("deleteProduct", id)
+      this.getShoppingCart()
+      this.getTotalToPay()
+      this.getTotalProducts()
+    },
+    addQuantityToProduct(id){
+      this.$store.dispatch("addQuantity", id)
       this.getTotalToPay()
     },
-    addQuantityToProduct(product){
-      this.$set(this.$shoppingCartList[product], "quantity", this.$shoppingCartList[product]["quantity"] + 1);
+    subtracQuantityToProduct(id){
+      this.$store.dispatch("subtractQuantity", id)
       this.getTotalToPay()
-    },
-    subtracQuantityToProduct(product){
-      if(this.$shoppingCartList[product]["quantity"] > 1){
-      this.$set(this.$shoppingCartList[product], "quantity", this.$shoppingCartList[product]["quantity"] - 1);
-      this.getTotalToPay()
-      }
-    },
-    getShoppingCartQuantity(){
-      return Object.keys(this.shoppingCartList).length
     },
     getTotalToPay(){
-      this.totalToPay = 0
-      let keys = Object.keys(this.shoppingCartList)
-      keys.forEach(key => {
-        this.totalToPay += (this.shoppingCartList[key].quantity * this.shoppingCartList[key].product.individualPrice)
-      });
+      this.$store.dispatch("totalToPay")
+      this.amount = this.$store.getters.totalToPay
+    },
+    getTotalProducts(){
+      this.$store.dispatch("totalProducts")
+      this.shoppingCartItems = this.$store.getters.totalProducts 
+      this.shoppingCartItems == 0 ? this.isEmpty = true : this.isEmpty = false
     },
   }
 }

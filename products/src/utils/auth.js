@@ -31,4 +31,5 @@ async function loggedIn(router) {
     })
 }
 
+
 export default {loggedIn}

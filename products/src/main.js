@@ -8,6 +8,7 @@ import agregarSeccion from './admin/addSection.vue'
 import dashboard from './admin/dashboard.vue'
 import productos from './sections/Productos.vue'
 import {BIcon, BootstrapVue, BootstrapVueIcons, IconsPlugin} from 'bootstrap-vue'
+import * as mdbvue from 'mdbvue'
 import VueSweetalert2 from 'vue-sweetalert2';
 import VueRouter from 'vue-router'
 import navBar from './components/navBar.vue'
@@ -16,12 +17,15 @@ import Section from './components/section.vue'
 import shoppingCart from './sections/shoppingCart.vue'
 import footer from './components/footer'
 import Loading from 'vue-loading-overlay';
-import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap-vue/dist/bootstrap-vue.css'
-import 'bootstrap-vue/dist/bootstrap-vue-icons.min.css'
+import 'bootstrap-css-only/css/bootstrap.min.css'
+import 'mdbvue/lib/css/mdb.min.css'
+import '@fortawesome/fontawesome-free/css/all.min.css'
+// import 'bootstrap/dist/css/bootstrap.css'
+// import 'bootstrap-vue/dist/bootstrap-vue.css'
+// import 'bootstrap-vue/dist/bootstrap-vue-icons.min.css'
 import 'vue-loading-overlay/dist/vue-loading.css';
 import firebase from "./firebaseConfig"
-import store from "./store";
+import store from "./stores/store";
 import auth from "./utils/auth"
 export const serverBus = new Vue();
 
@@ -32,11 +36,13 @@ Vue.component("shoppingCart", shoppingCart)
 Vue.component("custom-footer", footer)
 Vue.component('b-icon', BIcon)
 Vue.component('Section', Section)
+for (const component in mdbvue) {
+    Vue.component(component, mdbvue[component])
+    }
 Vue.use(VueRouter)
 Vue.use(VueSweetalert2)
 Vue.use(BootstrapVue, BootstrapVueIcons, IconsPlugin)
 Vue.config.productionTip = false
-Vue.prototype.$shoppingCartList = {}
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,

@@ -1,27 +1,33 @@
 <template>
-  <div>
-    <hr>
-      <header class= "productsnavbar"> 
-        <b-navbar fixed toggleable="lg" type="dark" variant="dark">
-          <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
-          <b-collapse id="nav-collapse" is-nav>
-            <b-navbar-nav class="ml-auto">
+  <mdb-container>
+    <mdb-row>
+      <mdb-col lg="12">
+        <mdb-navbar color="dark" light class="lighten-3 py-4 mb-4">
+          <mdb-navbar-toggler>
+            <mdb-navbar-nav class="ml-auto"> 
               <div v-for="section in sections" v-bind:key="section.section">
-                <b-nav-item 
-                  v-bind:class="{ navitem: section.visible}" 
-                  :active='section.visible'
-                  @click="setOverlay(section.section)"
-                  >{{section.name}}</b-nav-item>
+                <mdb-nav-item class = "navbutton"
+                v-bind:class="{ navitem: section.visible}" 
+                :active='section.visible'
+                @click="setOverlay(section.section)"
+                >
+                  {{section.name}}
+                </mdb-nav-item>
               </div>
-            </b-navbar-nav>
-          </b-collapse>
-        </b-navbar>
-      </header>
-      <Section class="overlay"
+            </mdb-navbar-nav>
+          </mdb-navbar-toggler>
+        </mdb-navbar>
+      </mdb-col>
+    </mdb-row>
+    <mdb-row>
+      <mdb-col lg="12">
+        <Section class="overlay"
         :name="title"
         :articles="articles"
         />
-  </div>
+      </mdb-col>
+    </mdb-row>
+  </mdb-container>
 </template>
 
 <script>

@@ -2,9 +2,9 @@
   <div id="app">
     <loading :active.sync="isLoading"/>
     <navigation-bar/>
-    <main class="py-4">
-      <router-view></router-view>
-    </main>
+      <main class="pt-10">
+        <router-view></router-view>
+      </main>
     <custom-footer/>
   </div>
 </template>
@@ -35,19 +35,19 @@ data () {
 }
 h1 {
   font-weight: 900 !important;
-  color: #970000 !important;
+  /* color: #970000 !important; */
   font-family: 'Nunito';
-  font-size: 200% !important;
+  /* font-size: 200% !important; */
 }
 h4 {
   font-weight: bold !important;
   color: #970000 !important;
   font-family: 'Nunito';
 }
-h5 {
+/* h5 {
   font-weight: bold !important;
   color: #000 !important;
-}
+} */
 .buttonAddCart {
   font-weight: bold;
   color: #292929 !important;
@@ -100,7 +100,7 @@ hr {
   -moz-osx-font-smoothing: grayscale;
   background: #111111;
   color: #ffffff;
-  position:fixed;
+  position: fixed; 
   bottom: 0;
   left: 0;
   right: 0;
@@ -113,19 +113,12 @@ hr {
 }
 .carrousel {
   background-color: #000;
-
+  position: fixed;
 }
 h2 {
   font-weight: bold !important;
   color: #970000 !important;
   font-family: 'Nunito';
-}
-.productsnavbar {
-  margin-left: 0px;
-  margin-right: -14px;
-  left: 0px;
-  right: -14px;
-  position: relative;
 }
 .navitem {
   font-weight: bold;
@@ -199,5 +192,8 @@ hr {
    padding: 0.2px; 
    width: 100%; 
    margin-top: 10px;
+}
+.productsnavbar {
+  position: relative;
 }
 </style>

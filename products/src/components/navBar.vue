@@ -1,67 +1,76 @@
 <template>
-<header class= "navbar">
-  <b-navbar fixed="top" toggleable="lg" type="dark" variant="dark">
-    <b-navbar-brand :to="'/'"><img class="logo" src="../assets/logo.png"></b-navbar-brand>
-    <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
-    <b-collapse id="nav-collapse" is-nav>
-      <b-navbar-nav class="ml-auto">
-          <b-button class = "navbutton" :to="'/'" variant="dark"> Inicio </b-button>
-          <hr>
-          <b-button class = "navbutton" :to="'productos'" variant="dark"> Productos </b-button>
-          <hr>
-          <b-button class = "navbutton" variant="dark"> Sobre Nosotros </b-button>
-          <hr>
-          <b-button class = "navbutton" variant="dark"> Puntos de Venta </b-button>
-          <hr>
-      </b-navbar-nav>
-      <b-navbar-nav class="ml-auto">
-        <b-button class = "navbutton" :to="'shoppingCart'" variant="dark" >
-          <b-icon-cart style = "margin-right:10px" variant="light"></b-icon-cart>
-           Tu Carrito
-        </b-button>
-        <hr>
-          <template v-if="user.loggedIn">
-            <b-button class = "navbutton" :to="'shoppingCart'" variant="dark" @click="dropIt">
-              <b-icon-person-fill style = "margin-right:10px" variant="light"></b-icon-person-fill >
-               <b>{{user.data.displayName}}</b>
-            </b-button>
-            <transition name="slide">
-              <ul class="userInfo" v-if="isDropped">
-                <b-button variant="dark" @click.prevent="signOut">
-                    Cerrar Sesión 
-                  </b-button>
-              </ul>
-            </transition>
-          </template>
-          <template v-else>
-            <router-link to="login">
-              <b-button class = "navbutton" variant="dark" > Iniciar sesión </b-button>
-            </router-link>
-            <router-link to="register">
-              <b-button class = "navbutton" variant="dark" > Registrarte </b-button>
-            </router-link>
-          </template>
-      </b-navbar-nav>
-    </b-collapse>
-  </b-navbar>
-</header>
-</template>
+  <mdb-navbar color="black" dark class="lighten-3 py-4 mb-4">
+    <mdb-navbar-brand :to="'/'"><img class="logo" src="../assets/logo.png"></mdb-navbar-brand>
+    <mdb-navbar-toggler>
+      <mdb-navbar-nav class="ml-auto">
+        <mdb-nav-item :to="'/'"> Inicio </mdb-nav-item>
+        <mdb-nav-item :to="'productos'"> Productos </mdb-nav-item>
+        <mdb-nav-item> Sobre Nosotros </mdb-nav-item>
+        <mdb-nav-item> Puntos de Venta </mdb-nav-item>
 
+        <mdb-nav-item :to="'shoppingCart'">
+          <mdb-icon icon="shopping-cart"/>
+           Tu Carrito
+        </mdb-nav-item>
+        <template v-if="user.loggedIn">
+          <mdb-dropdown start>
+            <mdb-dropdown-toggle slot="toggle" color="black">
+              <mdb-icon icon="user-circle" />
+              {{user.data.displayName}}
+            </mdb-dropdown-toggle>
+            <mdb-dropdown-menu dropleft style="margin-left: -50px">
+              <template v-if="admin">
+                <mdb-dropdown-item :to="'dashboard'">
+                    <mdb-icon icon="cog" />
+                    Panel de Administrador
+                </mdb-dropdown-item>
+                <div class="dropdown-divider"></div>
+                <mdb-dropdown-item @click="signOut">
+                  <mdb-icon icon="power-off" />
+                  Cerrar Sesión
+                </mdb-dropdown-item>
+              </template>
+              <template v-else>
+                <mdb-dropdown-item @click="signOut">
+                  <mdb-icon icon="power-off" />
+                  Cerrar Sesión
+                </mdb-dropdown-item>
+              </template>
+            </mdb-dropdown-menu>
+          </mdb-dropdown>
+        </template>
+        
+        <template v-else>
+          <router-link to="login">
+            <mdb-nav-item> Iniciar sesión </mdb-nav-item>
+          </router-link>
+          <router-link to="register">
+            <mdb-nav-item> Registrarte </mdb-nav-item>
+          </router-link>
+        </template>
+      </mdb-navbar-nav>
+      <!-- <form>
+        <mdb-input type="text" class="text-white" placeholder="Search" aria-label="Search" label navInput waves waves-fixed/>
+      </form> -->
+    </mdb-navbar-toggler>
+  </mdb-navbar>
+</template>
 <script>
-import { BIconCart, BIconPersonFill} from 'bootstrap-vue'
 import { mapGetters } from "vuex";
 import firebase from "firebase";
 export default {
     data() {
         return {
-          isDropped: false
+          admin: false,
         }
     },
   computed: {
     ...mapGetters({
-// map `this.user` to `this.$store.getters.user`
       user: "user"
     })
+  },
+  async mounted() {
+    await this.isAdmin()
   },
   methods: {
     signOut() {
@@ -74,13 +83,22 @@ export default {
           });
         });
     },
-    dropIt() {
-      this.isDropped = !this.isDropped
+    async isAdmin() {
+      await firebase.auth().onAuthStateChanged(userAuth => {
+        if(userAuth){
+          firebase.firestore().collection("users").doc(userAuth.uid)
+          .get()
+          .then(
+          doc => {
+            if (doc.exists && doc.data().role == "admin") {
+              this.admin = true
+            } else {
+              this.admin = false
+            }
+          })
+        }
+      })
     }
-  },
-  components: {
-    BIconCart,
-    BIconPersonFill
   },
 }
 </script>

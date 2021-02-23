@@ -1,23 +1,29 @@
 <template>
   <div class="carrousel">
-    <b-carousel
-      id="carousel-1"
-      v-model="slide"
-      :interval="4000"
-      controls
-      indicators
-      background=#000
-      style="margin-left: 50px; margin-right: 50px;text-shadow: 1px 1px 2px #333;"
-      @sliding-start="onSlideStart"
-      @sliding-end="onSlideEnd"
-    >
+    <div>
+      <b-carousel
+        id="carousel-1"
+        v-model="slide"
+        :interval="4000"
+        controls
+        indicators
+        background=#000
+        style="
+          margin-left: 50px; 
+          margin-right: 50px;
+          text-shadow: 1px 1px 2px #333; 
+          "
+        @sliding-start="onSlideStart"
+        @sliding-end="onSlideEnd"
+      >
 
-      <b-carousel-slide v-for="img in carrouselImages" :key="img">
-        <template #img>
-          <b-img center :src= img fluid />
-        </template>
-      </b-carousel-slide>
-    </b-carousel>
+        <b-carousel-slide v-for="img in carrouselImages" :key="img">
+          <template #img>
+            <b-img center :src= img fluid />
+          </template>
+        </b-carousel-slide>
+      </b-carousel>
+    </div>
   </div>
 </template>
 
