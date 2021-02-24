@@ -6,35 +6,33 @@
       <mdb-container>
         <mdb-row class="justify-content-md-center justify-content-between">
           <mdb-card-group class="col-md-4 pt-4" deck v-for="article in articles" :key="article.productId">
-              <mdb-card reverse>
-                <mdb-view hover cascade class="flex-fill"> 
-                  <a href="#!">
-                    <br>
-                  <mdb-card-image v-if="article.img != ''" :src="article.img" fluid center/>
-                      <mdb-card-image v-else :src="'https://firebasestorage.googleapis.com/v0/b/productsdistribution.appspot.com/o/imagenotavailable.jpg?alt=media&token=f58052f7-5666-4801-8721-779b0d4db7b4'"/>
-                      <mdb-mask overlay="white-slight" waves />
-                  </a>
-                </mdb-view>
-                <mdb-card-body class="flex-fill" cascade>
-                  <mdb-card-title><strong>{{article.name}}</strong></mdb-card-title>
-                  <mdb-card-text>
-                    Sed ut perspiciatis unde omnis iste natus sit voluptatem accusantium doloremque
-                    laudantium, totam rem aperiam.
-                  </mdb-card-text>
-                    <span class="float-left">
-                      ${{article.individualPrice}}.00 MXN
-                    </span>
-                    <span class="float-right">
-                      <a class="active">
-                        <mdb-tooltip trigger="hover" :options="{placement: 'top'}">
-                          <mdb-icon slot="reference" icon="star" class="ml-3"></mdb-icon>
-                        </mdb-tooltip>
-                      </a>
-                    </span>
-                    <br><br>
-                  <mdb-btn color="info" @click="articleAddedAlert(article)"  block variant="light"> Añadir a Carrito </mdb-btn>
-                </mdb-card-body>
-              </mdb-card>
+            <mdb-card narrow ecommerce>
+              <mdb-view cascade>
+                <mdb-card-image v-if="article.img != ''" class="productImage" :src="article.img" top alt="sample photo"/>
+                <mdb-card-image v-else class="productImage" :src="'https://firebasestorage.googleapis.com/v0/b/productsdistribution.appspot.com/o/imagenotavailable.jpg?alt=media&token=f58052f7-5666-4801-8721-779b0d4db7b4'" top alt="sample photo" />
+                <mdb-mask overlay="white-slight" waves />
+              </mdb-view>
+              <mdb-card-body class="text-center" cascade>
+                <mdb-card-title>
+                  <strong><a href="">{{article.name}}</a></strong>
+                </mdb-card-title>
+                <mdb-card-text>Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates.</mdb-card-text>
+                <a href="" class="text-muted">
+                  <small>Ver Producto</small>
+                </a>
+                <mdb-card-footer color="white" textColor="black" class="px-1">
+                  <span class="float-left">
+                    ${{article.individualPrice}} MXN
+                  </span>
+                  <span class="float-right">
+                    <a>
+                        <mdb-icon slot="reference" icon="star" class="ml-3"></mdb-icon>
+                    </a>
+                  </span>
+                   <mdb-btn class="mt-5" color="dark" @click="articleAddedAlert(article)"  block variant="light"> Añadir a Carrito </mdb-btn>
+                </mdb-card-footer>
+              </mdb-card-body>
+            </mdb-card>
           </mdb-card-group>
         </mdb-row>
       </mdb-container>

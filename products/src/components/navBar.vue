@@ -1,5 +1,5 @@
 <template>
-  <mdb-navbar color="black" dark class="lighten-3 py-4 mb-4">
+  <mdb-navbar position="top" color="black" dark class="lighten-3 py-4 mb-4">
     <mdb-navbar-brand :to="'/'"><img class="logo" src="../assets/logo.png"></mdb-navbar-brand>
     <mdb-navbar-toggler>
       <mdb-navbar-nav class="ml-auto">

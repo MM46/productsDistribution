@@ -2,7 +2,7 @@
   <div id="app">
     <loading :active.sync="isLoading"/>
     <navigation-bar/>
-      <main class="pt-10">
+      <main class="pt-10" style="margin-top: 9rem">
         <router-view></router-view>
       </main>
     <custom-footer/>
@@ -35,19 +35,13 @@ data () {
 }
 h1 {
   font-weight: 900 !important;
-  /* color: #970000 !important; */
   font-family: 'Nunito';
-  /* font-size: 200% !important; */
 }
 h4 {
   font-weight: bold !important;
   color: #970000 !important;
   font-family: 'Nunito';
 }
-/* h5 {
-  font-weight: bold !important;
-  color: #000 !important;
-} */
 .buttonAddCart {
   font-weight: bold;
   color: #292929 !important;
@@ -64,7 +58,7 @@ h4 {
   margin-left: 20px;
 }
 .productImage {
-  height: 10rem;
+  height: 15rem;
 }
 header {
   margin-top: 0px;
@@ -94,17 +88,6 @@ hr {
   margin: 1em 0; 
   padding: 0;
 }
-#footer {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  background: #111111;
-  color: #ffffff;
-  position: fixed; 
-  bottom: 0;
-  left: 0;
-  right: 0;
-}
 
 .footerText {
   margin-top: 15px;
@@ -113,7 +96,6 @@ hr {
 }
 .carrousel {
   background-color: #000;
-  position: fixed;
 }
 h2 {
   font-weight: bold !important;

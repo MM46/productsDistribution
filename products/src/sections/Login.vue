@@ -1,14 +1,14 @@
 <template>
-  <container>
-    <br><br><br><br>
+  <mdb-container>
+    <br><br>
     <div class="row justify-content-center">
-      <b-col md="8">
+      <mdb-col md="8">
         <div class="card">
           <div class="card-body">
             <div v-if="error" class="alert alert-danger">{{error}}</div>
               <form action="#" @submit.prevent="submit">
                 <p class="h4 text-center mb-4">Inicio de Sesión</p>
-                <div class="grey-text text-left" >
+                <div class="text-left" >
                   <mdb-input 
                     label="Your email" 
                     icon="envelope" 
@@ -31,9 +31,10 @@
               </form>
           </div>
         </div>
-      </b-col>
+      </mdb-col>
     </div>
-  </container>
+    <br><br>
+  </mdb-container>
 </template>
 
 <script>

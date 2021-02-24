@@ -14,6 +14,7 @@ import VueRouter from 'vue-router'
 import navBar from './components/navBar.vue'
 import carrousel from './components/carrousel.vue'
 import Section from './components/section.vue'
+import paymentMethod from './components/paymentMethod.vue'
 import shoppingCart from './sections/shoppingCart.vue'
 import footer from './components/footer'
 import Loading from 'vue-loading-overlay';
@@ -56,6 +57,11 @@ const router = new VueRouter({
           path: '/shoppingCart',
           name: 'shoppingCart',
           component: shoppingCart
+      },
+      {
+          path: '/paymentMethod',
+          name: 'paymentMethod',
+          component: paymentMethod
       },
       {
           path: '/productos',

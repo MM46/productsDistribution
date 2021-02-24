@@ -6,7 +6,7 @@
           <mdb-navbar-toggler>
             <mdb-navbar-nav class="ml-auto"> 
               <div v-for="section in sections" v-bind:key="section.section">
-                <mdb-nav-item class = "navbutton"
+                <mdb-nav-item
                 v-bind:class="{ navitem: section.visible}" 
                 :active='section.visible'
                 @click="setOverlay(section.section)"
@@ -27,6 +27,7 @@
         />
       </mdb-col>
     </mdb-row>
+    <br><br><br><br>
   </mdb-container>
 </template>
 

@@ -29,28 +29,22 @@ export default new Vuex.Store({
     },
     SET_CART(state, data) {
       let index = state.cart.data.findIndex(item => item.id === data.id)
-      index >= 0 ? state.cart.data[index].quantity += 1 : state.cart.data.push(data)
+      index >= 0 ? state.cart.data[index].quantity = Number(state.cart.data[index].quantity + 1) : state.cart.data.push(data)
     },
     DELETE_PRODUCT(state, id) {
       let index = state.cart.data.findIndex(item => item.id === id)
       state.cart.data.splice(index, 1);
-      // index >= 0 ? state.cart.data[index].quantity += 1 : state.cart.data.push(data)
     },
-    ADD_QUANTITY(state, id) {
-      let index = state.cart.data.findIndex(item => item.id === id)
-      state.cart.data[index].quantity += 1
-    },
-    SUBTRACT_QUANTITY(state, id) {
-      let index = state.cart.data.findIndex(item => item.id === id)
-      if(state.cart.data[index].quantity > 1){
-        state.cart.data[index].quantity -= 1
-      }
+    PRODUCT_QUANTITY(state, product) {
+      let index = state.cart.data.findIndex(item => item.id === product.id)
+      state.cart.data[index].quantity = Number(product.quantity)
     },
     GET_TOTAL_TO_PAY(state) {
       state.totalToPay = 0
       state.cart.data.forEach(item => {
         state.totalToPay += (item.quantity * item.product.individualPrice)
       });
+      state.totalToPay = state.totalToPay.toFixed(2)
     },
     GET_TOTAL_PRODUCTS(state) {
       state.totalProducts = state.cart.data.length
@@ -81,11 +75,8 @@ export default new Vuex.Store({
     totalToPay({ commit }) {
         commit("GET_TOTAL_TO_PAY");
     },
-    addQuantity({ commit }, id) {
-        commit("ADD_QUANTITY", id);
-    },
-    subtractQuantity({ commit }, id) {
-        commit("SUBTRACT_QUANTITY", id);
+    productQuantity({ commit }, product) {
+        commit("PRODUCT_QUANTITY", product);
     },
     deleteProduct({ commit }, id) {
         commit("DELETE_PRODUCT", id);

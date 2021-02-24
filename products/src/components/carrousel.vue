@@ -1,29 +1,17 @@
 <template>
   <div class="carrousel">
-    <div>
-      <b-carousel
-        id="carousel-1"
-        v-model="slide"
-        :interval="4000"
-        controls
-        indicators
-        background=#000
-        style="
-          margin-left: 50px; 
-          margin-right: 50px;
-          text-shadow: 1px 1px 2px #333; 
-          "
-        @sliding-start="onSlideStart"
-        @sliding-end="onSlideEnd"
-      >
-
-        <b-carousel-slide v-for="img in carrouselImages" :key="img">
-          <template #img>
-            <b-img center :src= img fluid />
-          </template>
-        </b-carousel-slide>
-      </b-carousel>
-    </div>
+    <mdb-carousel
+      :items="carrouselImages"
+      :interval="4000"
+      controlls
+      style="
+      margin-left: 5rem; 
+      margin-right: 5rem; 
+      text-shadow: 1px 1px 2px #333; 
+      "
+      background="#00000"
+    >
+    </mdb-carousel>
   </div>
 </template>
 
@@ -32,8 +20,6 @@
   export default {
     data() {
       return {
-        slide: 0,
-        sliding: null,
         carrouselImages: []
       }
     },
@@ -53,7 +39,7 @@
             .get()
             .then((result) => {
                 result.forEach(image => {
-                    this.carrouselImages.push(image.data().img)
+                    this.carrouselImages.push({img: true, src: image.data().img})
                 });
             })
             .catch((error) => {

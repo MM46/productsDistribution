@@ -53,7 +53,10 @@ function getProductsPerSection(selectedSection){
       .then((result) => {
         result.forEach(doc => {
           if(doc.data().section == selectedSection){
-            products.push(doc.data())
+            const data = doc.data()
+            data.individualPrice = data.individualPrice.toFixed(2)
+            data.boxPrice = data.boxPrice.toFixed(2)
+            products.push(data)
           }
         });
       })
